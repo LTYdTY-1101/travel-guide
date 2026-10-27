@@ -1,0 +1,33 @@
+{
+  "name": "europe-travel-remotion-studio",
+  "version": "1.0.0",
+  "description": "Editable Remotion Studio project for a 7-day Europe architecture travel video",
+  "scripts": {
+    "dev": "remotion studio --no-open",
+    "build": "remotion bundle",
+    "render": "remotion render src/index.ts Europe7DayInteractive out/europe-7-day.mp4",
+    "lint": "eslint src && tsc --noEmit",
+    "audio": "node scripts/generate-audio.mjs"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@remotion/cli": "4.0.538",
+    "@remotion/media": "4.0.538",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.538",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "4.0.538",
+    "@types/react": "19.2.7",
+    "@types/web": "0.0.166",
+    "eslint": "10.12.0",
+    "prettier": "3.8.1",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": "^20.19.0 || ^22.13.0 || >=24"
+  },
+  "private": true
+}
