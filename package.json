@@ -7,7 +7,8 @@
     "build": "remotion bundle",
     "render": "remotion render src/index.ts Europe7DayInteractive out/europe-7-day.mp4",
     "lint": "eslint src && tsc --noEmit",
-    "audio": "node scripts/generate-audio.mjs"
+    "audio": "node scripts/generate-audio.mjs",
+    "maps": "python3 scripts/generate-maps.py"
   },
   "license": "UNLICENSED",
   "dependencies": {

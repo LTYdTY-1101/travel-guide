@@ -1,5 +1,5 @@
-import {Audio} from '@remotion/media';
-import {Series, staticFile, useCurrentFrame, useVideoConfig, interpolate} from 'remotion';
+import {LocationLowerThird} from './location-lower-third.element';
+import {Series, useVideoConfig} from 'remotion';
 import {
   Scene01Messages,
   Scene02Departure,
@@ -16,8 +16,7 @@ import {
 } from './scenes/Scenes';
 
 export const EuropeTravelVideo: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps, durationInFrames} = useVideoConfig();
+  const {fps} = useVideoConfig();
   return (
     <>
       <Series>
@@ -58,20 +57,25 @@ export const EuropeTravelVideo: React.FC = () => {
           <Scene12Finale />
         </Series.Sequence>
       </Series>
-      <Audio
-        name="Music · 120 BPM Background"
-        src={staticFile('audio/bgm-120bpm.wav')}
+      <LocationLowerThird name="地点登场 · 中国 · 上海" location="中国 · 上海" icon="pin" customIcon="" iconSize={104} iconColor="#2563eb" fontSize={54} textColor="#18181b" fontFamily="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, Arial, sans-serif" from={4 * fps} durationInFrames={12 * fps} premountFor={fps} style={{position: 'absolute', left: 8, top: 72, width: 960, minHeight: 138}} />
+      <LocationLowerThird name="地点登场 · 法国 · 巴黎" location="法国 · 巴黎" icon="pin" customIcon="" iconSize={104} iconColor="#2563eb" fontSize={54} textColor="#18181b" fontFamily="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, Arial, sans-serif" from={16 * fps} durationInFrames={12 * fps} premountFor={fps} style={{position: 'absolute', left: 8, top: 72, width: 960, minHeight: 138}} />
+      <LocationLowerThird name="地点登场 · 西班牙 · 巴塞罗那" location="西班牙 · 巴塞罗那" icon="pin" customIcon="" iconSize={104} iconColor="#2563eb" fontSize={54} textColor="#18181b" fontFamily="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, Arial, sans-serif" from={28 * fps} durationInFrames={14 * fps} premountFor={fps} style={{position: 'absolute', left: 8, top: 72, width: 960, minHeight: 138}} />
+      <LocationLowerThird
+        name="地点登场 · 意大利 · 罗马"
+        location="意大利 · 罗马"
+        icon="pin"
+        customIcon=""
+        iconSize={80}
+        iconColor={'#ff3232'}
+        fontSize={54}
+        textColor="#18181b"
+        fontFamily="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, Arial, sans-serif"
+        from={42 * fps}
+        durationInFrames={10 * fps}
         premountFor={fps}
-        volume={interpolate(
-          frame,
-          [0, 1 * fps, durationInFrames - 2 * fps, durationInFrames - 1],
-          [0, 0.42, 0.42, 0],
-          {
-            extrapolateLeft: 'clamp',
-            extrapolateRight: 'clamp',
-          },
-        )}
+        style={{position: 'absolute', left: 8, top: 72, width: 960, minHeight: 138}}
       />
+      <LocationLowerThird name="地点登场 · 梵蒂冈" location="梵蒂冈" icon="pin" customIcon="" iconSize={104} iconColor="#2563eb" fontSize={54} textColor="#18181b" fontFamily="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, Arial, sans-serif" from={52 * fps} durationInFrames={6 * fps} premountFor={fps} style={{position: 'absolute', left: 8, top: 72, width: 960, minHeight: 138}} />
     </>
   );
 };

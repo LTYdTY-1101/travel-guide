@@ -1,0 +1,128 @@
+{
+  "views": {
+    "paris": {
+      "center": [
+        2.3522,
+        48.8566
+      ],
+      "zoom": 14,
+      "bounds": [
+        2.3058514282226668,
+        48.80235757305838,
+        2.3985485717773543,
+        48.91078371483503
+      ]
+    },
+    "barcelona": {
+      "center": [
+        2.1734,
+        41.3851
+      ],
+      "zoom": 14,
+      "bounds": [
+        2.1270514282226145,
+        41.32324919820954,
+        2.219748571777302,
+        41.446892024692104
+      ]
+    },
+    "rome": {
+      "center": [
+        12.4964,
+        41.9028
+      ],
+      "zoom": 14,
+      "bounds": [
+        12.450051428222679,
+        41.84144385883983,
+        12.542748571777366,
+        41.964097238921205
+      ]
+    },
+    "vatican": {
+      "center": [
+        12.4534,
+        41.9029
+      ],
+      "zoom": 16,
+      "bounds": [
+        12.441812857055623,
+        41.88756651027058,
+        12.464987142944295,
+        41.91822980833672
+      ]
+    },
+    "eurasia": {
+      "center": [
+        62,
+        47
+      ],
+      "zoom": 3.1,
+      "bounds": [
+        -26.565240993532854,
+        -71.52752567166513,
+        150.56524099353294,
+        87.10923440602846
+      ]
+    },
+    "france-spain": {
+      "center": [
+        2.26,
+        45.2
+      ],
+      "zoom": 6.8,
+      "bounds": [
+        -4.554787604108412,
+        36.02750804409478,
+        9.074787604108394,
+        53.101085746916674
+      ]
+    },
+    "mediterranean": {
+      "center": [
+        7.35,
+        41.9
+      ],
+      "zoom": 6.1,
+      "bounds": [
+        -3.7206551241916372,
+        25.644479733326552,
+        18.420655124191626,
+        54.87120118241059
+      ]
+    },
+    "europe": {
+      "center": [
+        7.4,
+        45.4
+      ],
+      "zoom": 5.3,
+      "bounds": [
+        -11.875130108844274,
+        16.564090288960816,
+        26.675130108844257,
+        64.58264909206878
+      ]
+    }
+  },
+  "sources": [
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+    "https://www.naturalearthdata.com/about/terms-of-use/",
+    "https://lbs.amap.com/api/webservice/guide/api/staticmaps"
+  ],
+  "naturalEarthLicense": "Public domain",
+  "esriAttribution": "Esri, HERE, Garmin, USGS, Intermap, INCREMENT P, NRCan, Esri Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC, © OpenStreetMap contributors, and the GIS User Community",
+  "shanghai": {
+    "center": [
+      121.4737,
+      31.2304
+    ],
+    "zoom": 11,
+    "size": [
+      540,
+      960
+    ],
+    "scale": 2
+  },
+  "note": "Shanghai: AMap static API. European city streets: Esri World Street Map (see service attribution). Coastlines and regional maps: Natural Earth. No public OSM raster tiles used."
+}

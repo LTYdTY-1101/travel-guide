@@ -21,9 +21,9 @@ const MapLayerInner: React.FC<MapLayerProps> = ({src, label, tint, style}) => {
         inset: 0,
         overflow: 'hidden',
         backgroundColor: tint,
-        ...style,
       }}
     >
+      <Interactive.Div style={{position: 'absolute', inset: 0, ...style}}>
       {src ? (
         <Img
           src={src}
@@ -80,6 +80,12 @@ const MapLayerInner: React.FC<MapLayerProps> = ({src, label, tint, style}) => {
       >
         {label}
       </div>
+      </Interactive.Div>
+      {src && (
+        <div style={{position: 'absolute', bottom: 14, right: 14, zIndex: 100, padding: '8px 12px', borderRadius: 6, backgroundColor: 'rgba(255,255,255,.94)', color: '#425466', fontFamily: 'Arial, sans-serif', fontSize: 16, lineHeight: 1.45, textAlign: 'right'}}>
+          {src.includes('shanghai.png') ? '© 高德地图 · GS(2018)1709号' : src.endsWith('.jpg') ? <>Esri, HERE, Garmin, USGS, Intermap, INCREMENT P, NRCan<br />Esri Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC<br />© OpenStreetMap contributors and the GIS User Community</> : 'Map data: Natural Earth (public domain)'}
+        </div>
+      )}
     </Interactive.Div>
   );
 };
@@ -89,10 +95,10 @@ const mapLayerSchema = {
     type: 'asset',
     assetType: 'image',
     default: '',
-    description: '真实地图图片；可替换为 Google Static Maps 导出图',
+    description: '真实地图图片：上海为高德，欧洲为 Esri / Natural Earth',
   },
   label: {type: 'text-content', default: '', description: '地图标签'},
-  tint: {type: 'color', default: '#edf4ed', description: '占位地图底色'},
+  tint: {type: 'color', default: '#edf4ed', description: '地图底色'},
 } as const satisfies InteractivitySchema;
 
 export const MapLayer = Interactive.withSchema({
@@ -252,8 +258,9 @@ const RouteLayerInner: React.FC<RouteLayerProps> = ({path, progress, color, widt
       stroke={color}
       strokeWidth={width}
       strokeLinecap="round"
-      strokeDasharray={1800}
-      strokeDashoffset={1800 * (1 - progress)}
+      pathLength={1}
+      strokeDasharray={1}
+      strokeDashoffset={1 - progress}
     />
   </Interactive.Svg>
 );
