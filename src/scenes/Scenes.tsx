@@ -1,10 +1,15 @@
-import {OnScreenMessages} from '../on-screen-messages.element';
 import {GeographicFlight} from '../components/GeographicFlight';
+import {FlightTicket} from '../components/FlightTicket';
+import {MessageNotification} from '../components/MessageNotification';
+import {FLIGHT_HANDOFF} from '../components/ShanghaiParisCamera';
+import {LandmarkShowcase} from '../components/LandmarkShowcase';
+import {DomesticFirstLeg} from '../components/DomesticFirstLeg';
 import type React from 'react';
 import {Audio} from '@remotion/media';
 import {
   AbsoluteFill,
   Easing,
+  Img,
   Interactive,
   interpolate,
   staticFile,
@@ -28,19 +33,27 @@ const SceneBase: React.FC<{children: React.ReactNode}> = ({children}) => (
   <AbsoluteFill style={{backgroundColor: sceneBackground, overflow: 'hidden'}}>{children}</AbsoluteFill>
 );
 
-export const Scene01Messages: React.FC = () => {
-  const frame = useCurrentFrame();
+export const Scene01Messages: React.FC<{timeOffsetFrames?: number; domesticTicket?: boolean}> = ({timeOffsetFrames = 0, domesticTicket = false}) => {
+  const frame = useCurrentFrame() + timeOffsetFrames;
   const {fps} = useVideoConfig();
+  const flipStart = 3.5 * fps;
+  const flipSide = 3.8 * fps;
+  const mapOpen = 4.35 * fps;
+  const mapTilt = 4.9 * fps;
+  const ticketIn = 4.9 * fps;
+  const ticketSettle = 5.5 * fps;
+  const pushStart = 6.8 * fps;
+  const fillEnd = 7.8 * fps;
   return (
     <SceneBase>
       <Interactive.Div
-        name="Background · 冷白毛玻璃"
+        name="Background · 深灰紫毛玻璃"
         premountFor={fps}
         style={{
           position: 'absolute',
           inset: 0,
           background:
-            'radial-gradient(circle at 22% 24%,rgba(255,255,255,.98),transparent 35%), radial-gradient(circle at 78% 72%,rgba(180,212,243,.68),transparent 42%), linear-gradient(145deg,#eef5ff,#d9e9f7)',
+            'radial-gradient(circle at 18% 20%,rgba(255,255,255,.67),transparent 36%), radial-gradient(circle at 78% 69%,rgba(160,153,194,.56),transparent 43%), linear-gradient(145deg,#e4e4f0,#c2bfd8)',
           opacity: 1,
         }}
       />
@@ -54,8 +67,8 @@ export const Scene01Messages: React.FC = () => {
           left: -220,
           top: 980,
           borderRadius: '50%',
-          backgroundColor: 'rgba(255,255,255,.38)',
-          filter: 'blur(50px)',
+          background: 'radial-gradient(circle,rgba(105,99,166,.46),rgba(153,149,201,.12) 62%,transparent 76%)',
+          filter: 'blur(70px)',
           translate: interpolate(frame, [0, 4 * fps], ['0px 40px', '180px -30px'], {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
@@ -63,8 +76,36 @@ export const Scene01Messages: React.FC = () => {
           }),
         }}
       />
-      <OnScreenMessages name="首屏对话气泡" incomingText="国庆，欧洲？" outgoingText="出发吧" premountFor={fps} durationInFrames={4 * fps} style={{position: 'absolute', left: 92, top: 610}} />
+      <Interactive.Div name="Background · 流动蓝紫光" premountFor={fps} style={{position: 'absolute', width: 780, height: 920, left: 570, top: 80, borderRadius: '50%', background: 'radial-gradient(circle,rgba(113,125,187,.32),rgba(183,179,218,.08) 64%,transparent 78%)', filter: 'blur(76px)', translate: interpolate(frame, [0, 4 * fps], ['80px -60px', '-150px 130px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.16, 1, .3, 1)})}} />
+      <Interactive.Div name="转场 · 三维悬浮空间" premountFor={fps} style={{position: 'absolute', inset: 0, perspective: 1450, perspectiveOrigin: '50% 48%', transformStyle: 'preserve-3d'}}>
+        <MessageNotification
+          name="首屏 · 悬浮消息通知"
+          message="国庆，欧洲？"
+          reply="go"
+          fontSize={50}
+          textColor="#1f2b43"
+          bubbleColor={'rgba(241, 242, 249, 0.8)'}
+          borderColor={'rgba(255, 255, 255, 0.6)'}
+          borderWidth={5}
+          premountFor={fps}
+          durationInFrames={4 * fps}
+          style={{left: 90, top: 685, opacity: interpolate(frame, [flipStart, 3.88 * fps], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), transform: `rotateY(${interpolate(frame, [flipStart, flipSide], [0, 88], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.48, 0, .9, .52)})}deg)`, transformOrigin: 'center center'}}
+        />
+        <Interactive.Div name="地图 · 侧翻展开并后倾" premountFor={fps} style={{position: 'absolute', left: interpolate(frame, [flipSide, mapOpen, pushStart, fillEnd], [90, 105, 105, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), top: interpolate(frame, [flipSide, mapOpen, pushStart, fillEnd], [685, 240, 240, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), width: interpolate(frame, [flipSide, mapOpen, pushStart, fillEnd], [900, 870, 870, 1080], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), height: interpolate(frame, [flipSide, mapOpen, pushStart, fillEnd], [234, 1440, 1440, 1920], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), overflow: 'hidden', borderRadius: interpolate(frame, [pushStart, fillEnd], [44, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), boxShadow: '0 45px 110px rgba(56,62,104,.27)', opacity: interpolate(frame, [3.75 * fps, 3.95 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), transform: `rotateY(${interpolate(frame, [flipSide, mapOpen], [-88, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.16, 1, .3, 1)})}deg) rotateX(${interpolate(frame, [mapOpen, mapTilt], [0, 25], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.16, 1, .3, 1)})}deg)`, transformOrigin: 'center bottom', scale: interpolate(frame, [ticketSettle, pushStart, fillEnd], [1, 1.08, 1.5], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', output: 'perceptual-scale'})}}>
+          <Interactive.Div name="地图 · 机场推进" premountFor={fps} style={{position: 'absolute', inset: 0, scale: interpolate(frame, [mapTilt, pushStart, fillEnd], [1, 1, 1.05], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.24, 0, .24, 1)})}}>
+            <MapLayer name="地图 · 浦东机场真实近景" premountFor={fps} src={staticFile('maps/pvg-runway-card.jpg')} label="上海 · 浦东机场" tint="#d6e0dc" />
+          </Interactive.Div>
+          <TextLayer name="地图 · PVG 地点标签" premountFor={fps} text="上海 · PVG" color="#1a304a" fontSize={31} style={{left: 585, top: 685, padding: '12px 19px', borderRadius: 15, backgroundColor: 'rgba(255,255,255,.9)', opacity: interpolate(frame, [mapTilt, 5.3 * fps, pushStart, fillEnd], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
+        </Interactive.Div>
+        <Interactive.Div name="地图 · 机票交接飞机投影" premountFor={fps} style={{position: 'absolute', left: FLIGHT_HANDOFF.planeX - 100, top: interpolate(frame, [5.3 * fps, pushStart, fillEnd], [660, 730, FLIGHT_HANDOFF.planeY - 100], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), width: 200, height: 200, filter: 'brightness(0) blur(4px)', opacity: interpolate(frame, [5.3 * fps, 5.7 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), translate: '0px 10px'}}><Img src={staticFile('plane-c4d.png')} style={{width: '100%', height: '100%', objectFit: 'contain'}} /></Interactive.Div>
+        <Plane name="地图 · 与起飞镜头共享位置的飞机" color="#ffffff" size={200} premountFor={fps} style={{left: FLIGHT_HANDOFF.planeX - 100, top: interpolate(frame, [5.3 * fps, pushStart, fillEnd], [660, 730, FLIGHT_HANDOFF.planeY - 100], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.35, 0, .25, 1)}), opacity: interpolate(frame, [mapTilt, 5.35 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), rotate: '0deg'}} />
+        <FlightTicket domestic={domesticTicket} style={{left: 109, top: frame <= pushStart ? interpolate(frame, [ticketIn, ticketSettle, pushStart], [1900, 1050, 1090], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.16, 1, .3, 1)}) : interpolate(frame, [pushStart, fillEnd], [1090, 2350], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.65, 0, 1, .45)}), opacity: interpolate(frame, [ticketIn, 5.2 * fps, 7.45 * fps, fillEnd], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), scale: interpolate(frame, [ticketSettle, pushStart, fillEnd], [.8, .864, 1.7], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', output: 'perceptual-scale'}), transform: 'rotateX(14deg)', transformOrigin: 'center bottom', filter: `blur(${interpolate(frame, [ticketIn, ticketSettle, pushStart, fillEnd], [17, 0, 0, 28], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.6, 0, 1, .6)})}px)`}} />
+      </Interactive.Div>
+      {domesticTicket && <Interactive.Div name="交接 · 同一张浦东机场地图" premountFor={fps} style={{position: 'absolute', inset: 0, opacity: interpolate(frame, [7.68 * fps, 7.90 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}}><DomesticFirstLeg frozen /></Interactive.Div>}
       <Audio name="SFX · 消息提示" from={36} src={staticFile('audio/message.wav')} volume={0.7} premountFor={fps} />
+      <Audio name="SFX · 通知翻面" from={Math.round(flipStart)} src={staticFile('audio/whoosh.wav')} volume={0.36} premountFor={fps} />
+      <Audio name="SFX · 机票上推" from={Math.round(ticketIn)} src={staticFile('audio/whoosh.wav')} volume={0.28} premountFor={fps} />
+      <Audio name="SFX · 推入地图" from={Math.round(pushStart)} src={staticFile('audio/whoosh.wav')} volume={0.25} premountFor={fps} />
     </SceneBase>
   );
 };
@@ -136,241 +177,71 @@ export const Scene04FlightToEurope: React.FC = () => {
   const {fps} = useVideoConfig();
   return (
     <SceneBase>
-      <GeographicFlight name="飞行镜头 · 欧亚航线" region="eurasia" departureZoom={3.1} cruiseZoom={1.25} arrivalZoom={1.8} durationInFrames={4 * fps} premountFor={fps} />
+      <GeographicFlight name="飞行镜头 · 欧亚航线" region="eurasia" departureZoom={3.8} cruiseZoom={1.2} arrivalZoom={2.1} planeSize={200} flightDuration={8 * fps} durationInFrames={8 * fps} premountFor={fps} />
       <TextLayer name="Label · 上海巴黎" premountFor={fps} text="上海 → 巴黎" color="#10233d" fontSize={76} style={{left: 78, top: 270, opacity: interpolate(frame, [0, 0.6 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
       <Audio name="SFX · 跨洲飞行" src={staticFile('audio/whoosh.wav')} volume={0.35} premountFor={fps} />
+      <Audio name="SFX · 巴黎落点" from={Math.round(7.5 * fps)} src={staticFile('audio/pop.wav')} volume={0.32} premountFor={fps} />
     </SceneBase>
   );
 };
 
-export const Scene05Paris: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
-  return (
-    <SceneBase>
-      <MapLayer name="Map · 巴黎俯视" premountFor={fps} src={staticFile('maps/paris.jpg')} label="巴黎" tint="#eef3e8" style={{scale: interpolate(frame, [0, 1.2 * fps], [1.05, 1.8], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.4, 0, .25, 1)}), transformOrigin: 'center'}} />
-      <Interactive.Div name="Wash · 巴黎留白" premountFor={fps} style={{position: 'absolute', inset: 0, background: 'linear-gradient(180deg,rgba(246,250,255,.94),rgba(246,250,255,.28) 42%,rgba(246,250,255,.14))'}} />
-      
-      
-      <Interactive.Div name="Shadow · 埃菲尔铁塔" premountFor={fps} style={{position: 'absolute', left: 86, top: 1326, width: 395, height: 58, borderRadius: '50%', backgroundColor: '#506679', filter: 'blur(22px)', opacity: interpolate(frame, [1.2 * fps, 2 * fps], [0, 0.18], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), scale: interpolate(frame, [1.2 * fps, 2.2 * fps], [0.5, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', output: 'perceptual-scale'})}} />
-      <LandmarkLayer
-        name="Landmark · 埃菲尔铁塔"
-        premountFor={fps}
-        kind="eiffel"
-        src={staticFile('landmarks/dioramas/eiffel.png')}
-        label="埃菲尔铁塔"
-        tilt={interpolate(frame, [1.2 * fps, 2.3 * fps], [-78, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)})}
-        style={{
-          left: 24, top: 380, width: 520, height: 970,
-          opacity: interpolate(frame, [1.2 * fps, 1.5 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}),
-          scale: interpolate(frame, [1.2 * fps, 2.3 * fps], [0.78, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.spring({damping: 18}), output: 'perceptual-scale'}),
-          translate: interpolate(frame, [1.2 * fps, 2.3 * fps], ['0px 32px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)}),
-        }}
-      />
-      <Pin name="Pin · 埃菲尔铁塔" premountFor={fps} label="" color="#ef3b32" style={{left: 81, top: 1311, scale: 0.42, transformOrigin: 'left top', opacity: interpolate(frame, [1.85 * fps, 2.3 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <TextLayer name="Caption · 埃菲尔铁塔" premountFor={fps} text="埃菲尔铁塔" color="#17334e" fontSize={30} style={{left: 117, top: 1370, padding: '14px 22px', borderRadius: 18, letterSpacing: 0, backgroundColor: 'rgba(255,255,255,.94)', boxShadow: '0 12px 28px rgba(61,86,108,.1)', opacity: interpolate(frame, [1.9 * fps, 2.4 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), translate: interpolate(frame, [1.9 * fps, 2.4 * fps], ['0px 16px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      
-      <Interactive.Div name="Shadow · 卢浮宫" premountFor={fps} style={{position: 'absolute', left: 521, top: 1036, width: 448, height: 58, borderRadius: '50%', backgroundColor: '#506679', filter: 'blur(22px)', opacity: interpolate(frame, [1.7 * fps, 2.5 * fps], [0, 0.18], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), scale: interpolate(frame, [1.7 * fps, 2.7 * fps], [0.5, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', output: 'perceptual-scale'})}} />
-      <LandmarkLayer
-        name="Landmark · 卢浮宫"
-        premountFor={fps}
-        kind="louvre"
-        src={staticFile('landmarks/dioramas/louvre.png')}
-        label="卢浮宫"
-        tilt={interpolate(frame, [1.7 * fps, 2.8 * fps], [-78, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)})}
-        style={{
-          left: 450, top: 600, width: 590, height: 460,
-          opacity: interpolate(frame, [1.7 * fps, 2 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}),
-          scale: interpolate(frame, [1.7 * fps, 2.8 * fps], [0.78, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.spring({damping: 18}), output: 'perceptual-scale'}),
-          translate: interpolate(frame, [1.7 * fps, 2.8 * fps], ['0px 32px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)}),
-        }}
-      />
-      <Pin name="Pin · 卢浮宫" premountFor={fps} label="" color="#ef3b32" style={{left: 641, top: 1021, scale: 0.42, transformOrigin: 'left top', opacity: interpolate(frame, [2.35 * fps, 2.8 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <TextLayer name="Caption · 卢浮宫" premountFor={fps} text="卢浮宫" color="#17334e" fontSize={30} style={{left: 677, top: 1080, padding: '14px 22px', borderRadius: 18, letterSpacing: 0, backgroundColor: 'rgba(255,255,255,.94)', boxShadow: '0 12px 28px rgba(61,86,108,.1)', opacity: interpolate(frame, [2.4 * fps, 2.9 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), translate: interpolate(frame, [2.4 * fps, 2.9 * fps], ['0px 16px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      
-      <Interactive.Div name="Shadow · 巴黎圣母院" premountFor={fps} style={{position: 'absolute', left: 493, top: 1646, width: 464, height: 58, borderRadius: '50%', backgroundColor: '#506679', filter: 'blur(22px)', opacity: interpolate(frame, [2.2 * fps, 3 * fps], [0, 0.18], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), scale: interpolate(frame, [2.2 * fps, 3.2 * fps], [0.5, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', output: 'perceptual-scale'})}} />
-      <LandmarkLayer
-        name="Landmark · 巴黎圣母院"
-        premountFor={fps}
-        kind="notre-dame"
-        src={staticFile('landmarks/dioramas/notre-dame.png')}
-        label="巴黎圣母院"
-        tilt={interpolate(frame, [2.2 * fps, 3.3 * fps], [-78, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)})}
-        style={{
-          left: 420, top: 1110, width: 610, height: 560,
-          opacity: interpolate(frame, [2.2 * fps, 2.5 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}),
-          scale: interpolate(frame, [2.2 * fps, 3.3 * fps], [0.78, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.spring({damping: 18}), output: 'perceptual-scale'}),
-          translate: interpolate(frame, [2.2 * fps, 3.3 * fps], ['0px 32px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)}),
-        }}
-      />
-      <Pin name="Pin · 巴黎圣母院" premountFor={fps} label="" color="#ef3b32" style={{left: 556, top: 1641, scale: 0.42, transformOrigin: 'left top', opacity: interpolate(frame, [2.85 * fps, 3.3 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <TextLayer name="Caption · 巴黎圣母院" premountFor={fps} text="巴黎圣母院" color="#17334e" fontSize={30} style={{left: 592, top: 1700, padding: '14px 22px', borderRadius: 18, letterSpacing: 0, backgroundColor: 'rgba(255,255,255,.94)', boxShadow: '0 12px 28px rgba(61,86,108,.1)', opacity: interpolate(frame, [2.9 * fps, 3.4 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), translate: interpolate(frame, [2.9 * fps, 3.4 * fps], ['0px 16px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <Audio name="SFX · 巴黎地标1" from={10 + 1.2 * fps} src={staticFile('audio/pop.wav')} volume={0.35} premountFor={fps} />
-      <Audio name="SFX · 巴黎地标2" from={25 + 1.2 * fps} src={staticFile('audio/pop.wav')} volume={0.3} premountFor={fps} />
-      <Audio name="SFX · 巴黎地标3" from={40 + 1.2 * fps} src={staticFile('audio/pop.wav')} volume={0.3} premountFor={fps} />
-    </SceneBase>
-  );
-};
+export const Scene05Paris: React.FC = () => (
+  <SceneBase>
+    <LandmarkShowcase city="巴黎" map="maps/paris.jpg" durationInFrames={360} items={[
+      {kind: 'eiffel', title: '埃菲尔铁塔', image: 'landmarks/dioramas/eiffel.png', width: 760, height: 1140},
+      {kind: 'louvre', title: '卢浮宫', image: 'landmarks/dioramas/louvre.png', width: 910, height: 640},
+      {kind: 'notre-dame', title: '巴黎圣母院', image: 'landmarks/dioramas/notre-dame.png', width: 830, height: 830},
+    ]} />
+  </SceneBase>
+);
 
 export const Scene06ParisBarcelona: React.FC = () => {
   const {fps} = useVideoConfig();
   return (
     <SceneBase>
-      <GeographicFlight name="飞行镜头 · 法国西班牙" region="france-spain" departureZoom={3.1} cruiseZoom={1.25} arrivalZoom={1.8} durationInFrames={4 * fps} premountFor={fps} />
+      <GeographicFlight name="飞行镜头 · 法国西班牙" region="france-spain" departureZoom={3.8} cruiseZoom={1.2} arrivalZoom={2.1} planeSize={165} flightDuration={4 * fps} durationInFrames={4 * fps} premountFor={fps} />
       <Audio name="SFX · 巴黎巴塞罗那" src={staticFile('audio/whoosh.wav')} volume={0.28} premountFor={fps} />
+      <Audio name="SFX · 巴塞罗那落点" from={Math.round(3.5 * fps)} src={staticFile('audio/pop.wav')} volume={0.32} premountFor={fps} />
     </SceneBase>
   );
 };
 
-export const Scene07Barcelona: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
-  return (
-    <SceneBase>
-      <MapLayer name="Map · 巴塞罗那俯视" premountFor={fps} src={staticFile('maps/barcelona.jpg')} label="巴塞罗那" tint="#edf3e9" style={{scale: interpolate(frame, [0, 1.2 * fps], [1.05, 1.8], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.4, 0, .25, 1)}), transformOrigin: 'center'}} />
-      <Interactive.Div name="Wash · 巴塞罗那留白" premountFor={fps} style={{position: 'absolute', inset: 0, background: 'linear-gradient(180deg,rgba(246,250,255,.94),rgba(246,250,255,.24) 45%,rgba(246,250,255,.12))'}} />
-      
-      
-      <Interactive.Div name="Shadow · 圣家堂" premountFor={fps} style={{position: 'absolute', left: 76, top: 1356, width: 547, height: 58, borderRadius: '50%', backgroundColor: '#506679', filter: 'blur(22px)', opacity: interpolate(frame, [1.2 * fps, 2 * fps], [0, 0.18], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), scale: interpolate(frame, [1.2 * fps, 2.2 * fps], [0.5, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', output: 'perceptual-scale'})}} />
-      <LandmarkLayer
-        name="Landmark · 圣家堂"
-        premountFor={fps}
-        kind="sagrada"
-        src={staticFile('landmarks/dioramas/sagrada.png')}
-        label="圣家堂"
-        tilt={interpolate(frame, [1.2 * fps, 2.3 * fps], [-78, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)})}
-        style={{
-          left: -10, top: 330, width: 720, height: 1050,
-          opacity: interpolate(frame, [1.2 * fps, 1.5 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}),
-          scale: interpolate(frame, [1.2 * fps, 2.3 * fps], [0.78, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.spring({damping: 18}), output: 'perceptual-scale'}),
-          translate: interpolate(frame, [1.2 * fps, 2.3 * fps], ['0px 32px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)}),
-        }}
-      />
-      <Pin name="Pin · 圣家堂" premountFor={fps} label="" color="#ef3b32" style={{left: 151, top: 1341, scale: 0.42, transformOrigin: 'left top', opacity: interpolate(frame, [1.85 * fps, 2.3 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <TextLayer name="Caption · 圣家堂" premountFor={fps} text="圣家堂" color="#17334e" fontSize={30} style={{left: 187, top: 1400, padding: '14px 22px', borderRadius: 18, letterSpacing: 0, backgroundColor: 'rgba(255,255,255,.94)', boxShadow: '0 12px 28px rgba(61,86,108,.1)', opacity: interpolate(frame, [1.9 * fps, 2.4 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), translate: interpolate(frame, [1.9 * fps, 2.4 * fps], ['0px 16px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      
-      <Interactive.Div name="Shadow · 巴特罗之家" premountFor={fps} style={{position: 'absolute', left: 621, top: 1506, width: 388, height: 58, borderRadius: '50%', backgroundColor: '#506679', filter: 'blur(22px)', opacity: interpolate(frame, [1.95 * fps, 2.75 * fps], [0, 0.18], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), scale: interpolate(frame, [1.95 * fps, 2.95 * fps], [0.5, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', output: 'perceptual-scale'})}} />
-      <LandmarkLayer
-        name="Landmark · 巴特罗之家"
-        premountFor={fps}
-        kind="casa"
-        src={staticFile('landmarks/dioramas/casa.png')}
-        label="巴特罗之家"
-        tilt={interpolate(frame, [1.95 * fps, 3.05 * fps], [-78, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)})}
-        style={{
-          left: 560, top: 800, width: 510, height: 730,
-          opacity: interpolate(frame, [1.95 * fps, 2.25 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}),
-          scale: interpolate(frame, [1.95 * fps, 3.05 * fps], [0.78, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.spring({damping: 18}), output: 'perceptual-scale'}),
-          translate: interpolate(frame, [1.95 * fps, 3.05 * fps], ['0px 32px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)}),
-        }}
-      />
-      <Pin name="Pin · 巴特罗之家" premountFor={fps} label="" color="#ef3b32" style={{left: 621, top: 1491, scale: 0.42, transformOrigin: 'left top', opacity: interpolate(frame, [2.6 * fps, 3.05 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <TextLayer name="Caption · 巴特罗之家" premountFor={fps} text="巴特罗之家" color="#17334e" fontSize={30} style={{left: 657, top: 1550, padding: '14px 22px', borderRadius: 18, letterSpacing: 0, backgroundColor: 'rgba(255,255,255,.94)', boxShadow: '0 12px 28px rgba(61,86,108,.1)', opacity: interpolate(frame, [2.65 * fps, 3.15 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), translate: interpolate(frame, [2.65 * fps, 3.15 * fps], ['0px 16px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <TextLayer name="Tip · 高迪路线" premountFor={fps} text={'高迪路线 · 圣家堂 → 巴特罗之家\n建议提前预约官方时段'} color="#24415f" fontSize={29} style={{left: 100, top: 1730, width: 820, padding: '24px 30px', borderRadius: 24, lineHeight: 1.6, whiteSpace: 'pre-line', letterSpacing: 1, fontWeight: 650, backgroundColor: 'rgba(255,255,255,.94)', boxShadow: '0 18px 46px rgba(60,83,108,.12)', opacity: interpolate(frame, [5.5 * fps, 7 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <Audio name="SFX · 圣家堂" from={10 + 1.2 * fps} src={staticFile('audio/pop.wav')} volume={0.36} premountFor={fps} />
-      <Audio
-        name="SFX · 巴特罗之家"
-        from={12}
-        src={staticFile('audio/pop.wav')}
-        volume={0.32}
-        premountFor={fps}
-      />
-    </SceneBase>
-  );
-};
+export const Scene07Barcelona: React.FC = () => (
+  <SceneBase>
+    <LandmarkShowcase city="巴塞罗那" map="maps/barcelona.jpg" durationInFrames={300} items={[
+      {kind: 'sagrada', title: '圣家堂', image: 'landmarks/dioramas/sagrada.png', width: 750, height: 1125},
+      {kind: 'casa', title: '巴特罗之家', image: 'landmarks/dioramas/casa.png', width: 730, height: 1095},
+    ]} />
+  </SceneBase>
+);
 
 export const Scene08BarcelonaRome: React.FC = () => {
   const {fps} = useVideoConfig();
   return (
     <SceneBase>
-      <GeographicFlight name="飞行镜头 · 地中海" region="mediterranean" departureZoom={3.1} cruiseZoom={1.25} arrivalZoom={1.8} durationInFrames={4 * fps} premountFor={fps} />
+      <GeographicFlight name="飞行镜头 · 地中海" region="mediterranean" departureZoom={3.8} cruiseZoom={1.2} arrivalZoom={2.1} planeSize={165} flightDuration={4 * fps} durationInFrames={4 * fps} premountFor={fps} />
       <Audio name="SFX · 巴塞罗那罗马" src={staticFile('audio/whoosh.wav')} volume={0.28} premountFor={fps} />
+      <Audio name="SFX · 罗马落点" from={Math.round(3.5 * fps)} src={staticFile('audio/pop.wav')} volume={0.32} premountFor={fps} />
     </SceneBase>
   );
 };
 
-export const Scene09Rome: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
-  return (
-    <SceneBase>
-      <MapLayer name="Map · 罗马俯视" premountFor={fps} src={staticFile('maps/rome.jpg')} label="罗马" tint="#eef3e8" style={{scale: interpolate(frame, [0, 1.2 * fps], [1.05, 1.8], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.4, 0, .25, 1)}), transformOrigin: 'center'}} />
-      <Interactive.Div name="Wash · 罗马留白" premountFor={fps} style={{position: 'absolute', inset: 0, background: 'linear-gradient(180deg,rgba(246,250,255,.94),rgba(246,250,255,.24) 45%,rgba(246,250,255,.12))'}} />
-      
-      
-      <Interactive.Div name="Shadow · 罗马斗兽场" premountFor={fps} style={{position: 'absolute', left: 98, top: 1066, width: 684, height: 58, borderRadius: '50%', backgroundColor: '#506679', filter: 'blur(22px)', opacity: interpolate(frame, [1.2 * fps, 2 * fps], [0, 0.18], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), scale: interpolate(frame, [1.2 * fps, 2.2 * fps], [0.5, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', output: 'perceptual-scale'})}} />
-      <LandmarkLayer
-        name="Landmark · 罗马斗兽场"
-        premountFor={fps}
-        kind="colosseum"
-        src={staticFile('landmarks/dioramas/colosseum.png')}
-        label="罗马斗兽场"
-        tilt={interpolate(frame, [1.2 * fps, 2.3 * fps], [-78, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)})}
-        style={{
-          left: -10, top: 410, width: 900, height: 680,
-          opacity: interpolate(frame, [1.2 * fps, 1.5 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}),
-          scale: interpolate(frame, [1.2 * fps, 2.3 * fps], [0.78, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.spring({damping: 18}), output: 'perceptual-scale'}),
-          translate: interpolate(frame, [1.2 * fps, 2.3 * fps], ['0px 32px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)}),
-        }}
-      />
-      <Pin name="Pin · 罗马斗兽场" premountFor={fps} label="" color="#ef3b32" style={{left: 156, top: 1061, scale: 0.42, transformOrigin: 'left top', opacity: interpolate(frame, [1.85 * fps, 2.3 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <TextLayer name="Caption · 罗马斗兽场" premountFor={fps} text="罗马斗兽场" color="#17334e" fontSize={30} style={{left: 192, top: 1120, padding: '14px 22px', borderRadius: 18, letterSpacing: 0, backgroundColor: 'rgba(255,255,255,.94)', boxShadow: '0 12px 28px rgba(61,86,108,.1)', opacity: interpolate(frame, [1.9 * fps, 2.4 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), translate: interpolate(frame, [1.9 * fps, 2.4 * fps], ['0px 16px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      
-      <Interactive.Div name="Shadow · 万神殿" premountFor={fps} style={{position: 'absolute', left: 478, top: 1576, width: 494, height: 58, borderRadius: '50%', backgroundColor: '#506679', filter: 'blur(22px)', opacity: interpolate(frame, [2.2 * fps, 3 * fps], [0, 0.18], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), scale: interpolate(frame, [2.2 * fps, 3.2 * fps], [0.5, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', output: 'perceptual-scale'})}} />
-      <LandmarkLayer
-        name="Landmark · 万神殿"
-        premountFor={fps}
-        kind="pantheon"
-        src={staticFile('landmarks/dioramas/pantheon.png')}
-        label="万神殿"
-        tilt={interpolate(frame, [2.2 * fps, 3.3 * fps], [-78, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)})}
-        style={{
-          left: 400, top: 1030, width: 650, height: 570,
-          opacity: interpolate(frame, [2.2 * fps, 2.5 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}),
-          scale: interpolate(frame, [2.2 * fps, 3.3 * fps], [0.78, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.spring({damping: 18}), output: 'perceptual-scale'}),
-          translate: interpolate(frame, [2.2 * fps, 3.3 * fps], ['0px 32px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)}),
-        }}
-      />
-      <Pin name="Pin · 万神殿" premountFor={fps} label="" color="#ef3b32" style={{left: 596, top: 1571, scale: 0.42, transformOrigin: 'left top', opacity: interpolate(frame, [2.85 * fps, 3.3 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <TextLayer name="Caption · 万神殿" premountFor={fps} text="万神殿" color="#17334e" fontSize={30} style={{left: 632, top: 1630, padding: '14px 22px', borderRadius: 18, letterSpacing: 0, backgroundColor: 'rgba(255,255,255,.94)', boxShadow: '0 12px 28px rgba(61,86,108,.1)', opacity: interpolate(frame, [2.9 * fps, 3.4 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), translate: interpolate(frame, [2.9 * fps, 3.4 * fps], ['0px 16px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <TextLayer name="Tip · 斗兽场预约" premountFor={fps} text={'古罗马路线 · 斗兽场 → 万神殿\n提前留意官方售票与入场时段'} color="#24415f" fontSize={29} style={{left: 100, top: 1740, width: 820, padding: '24px 30px', borderRadius: 24, lineHeight: 1.6, whiteSpace: 'pre-line', letterSpacing: 1, fontWeight: 650, backgroundColor: 'rgba(255,255,255,.94)', boxShadow: '0 18px 46px rgba(60,83,108,.12)', opacity: interpolate(frame, [6.5 * fps, 8.5 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <Audio name="SFX · 斗兽场" from={10 + 1.2 * fps} src={staticFile('audio/pop.wav')} volume={0.36} premountFor={fps} />
-      <Audio name="SFX · 万神殿" from={40 + 1.2 * fps} src={staticFile('audio/pop.wav')} volume={0.32} premountFor={fps} />
-    </SceneBase>
-  );
-};
+export const Scene09Rome: React.FC = () => (
+  <SceneBase>
+    <LandmarkShowcase city="罗马" map="maps/rome.jpg" durationInFrames={300} items={[
+      {kind: 'colosseum', title: '罗马斗兽场', image: 'landmarks/dioramas/colosseum.png', width: 930, height: 620},
+      {kind: 'pantheon', title: '万神殿', image: 'landmarks/dioramas/pantheon.png', width: 840, height: 840},
+    ]} />
+  </SceneBase>
+);
 
-export const Scene10Vatican: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
-  return (
-    <SceneBase>
-      <MapLayer name="Map · 梵蒂冈俯视" premountFor={fps} src={staticFile('maps/vatican.jpg')} label="梵蒂冈" tint="#edf3e9" style={{scale: interpolate(frame, [0, 1.2 * fps], [1.05, 1.8], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.4, 0, .25, 1)}), transformOrigin: 'center'}} />
-      <Interactive.Div name="Wash · 梵蒂冈留白" premountFor={fps} style={{position: 'absolute', inset: 0, background: 'linear-gradient(180deg,rgba(246,250,255,.94),rgba(246,250,255,.26) 45%,rgba(246,250,255,.12))'}} />
-      
-      
-      <Interactive.Div name="Shadow · 圣彼得大教堂" premountFor={fps} style={{position: 'absolute', left: 145, top: 1456, width: 790, height: 58, borderRadius: '50%', backgroundColor: '#506679', filter: 'blur(22px)', opacity: interpolate(frame, [1.2 * fps, 2 * fps], [0, 0.18], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), scale: interpolate(frame, [1.2 * fps, 2.2 * fps], [0.5, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', output: 'perceptual-scale'})}} />
-      <LandmarkLayer
-        name="Landmark · 圣彼得大教堂"
-        premountFor={fps}
-        kind="vatican"
-        src={staticFile('landmarks/dioramas/vatican.png')}
-        label="圣彼得大教堂"
-        tilt={interpolate(frame, [1.2 * fps, 2.3 * fps], [-78, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)})}
-        style={{
-          left: 20, top: 380, width: 1040, height: 1100,
-          opacity: interpolate(frame, [1.2 * fps, 1.5 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}),
-          scale: interpolate(frame, [1.2 * fps, 2.3 * fps], [0.78, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.spring({damping: 18}), output: 'perceptual-scale'}),
-          translate: interpolate(frame, [1.2 * fps, 2.3 * fps], ['0px 32px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.16, 1, 0.3, 1)}),
-        }}
-      />
-      <Pin name="Pin · 圣彼得大教堂" premountFor={fps} label="" color="#ef3b32" style={{left: 356, top: 1476, scale: 0.42, transformOrigin: 'left top', opacity: interpolate(frame, [1.85 * fps, 2.3 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <TextLayer name="Caption · 圣彼得大教堂" premountFor={fps} text="圣彼得大教堂" color="#17334e" fontSize={30} style={{left: 392, top: 1535, padding: '14px 22px', borderRadius: 18, letterSpacing: 0, backgroundColor: 'rgba(255,255,255,.94)', boxShadow: '0 12px 28px rgba(61,86,108,.1)', opacity: interpolate(frame, [1.9 * fps, 2.4 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), translate: interpolate(frame, [1.9 * fps, 2.4 * fps], ['0px 16px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <TextLayer name="Subtitle · 文艺复兴尺度" premountFor={fps} text="圣彼得广场 · 柱廊 · 穹顶" color="#617183" fontSize={36} style={{left: 290, top: 1660, letterSpacing: 1, opacity: interpolate(frame, [2.7 * fps, 3.7 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <Audio name="SFX · 圣彼得大教堂" from={10 + 1.2 * fps} src={staticFile('audio/pop.wav')} volume={0.4} premountFor={fps} />
-    </SceneBase>
-  );
-};
+export const Scene10Vatican: React.FC = () => (
+  <SceneBase>
+    <LandmarkShowcase city="梵蒂冈" map="maps/vatican.jpg" durationInFrames={180} items={[
+      {kind: 'vatican', title: '圣彼得大教堂', image: 'landmarks/dioramas/vatican.png', width: 920, height: 920},
+    ]} />
+  </SceneBase>
+);
 
 export const Scene11Montage: React.FC = () => {
   const frame = useCurrentFrame();
@@ -487,7 +358,7 @@ export const Scene12Finale: React.FC = () => {
       <TextLayer name="Eyebrow · 国庆特别计划" premountFor={fps} text="国庆假期 · 欧洲之旅" color="#6081a4" fontSize={25} style={{left: 76, top: 65, letterSpacing: 4, opacity: interpolate(frame, [0 * fps, 0.6 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
       <TextLayer name="Title · 国庆欧洲" premountFor={fps} text={'国庆欧洲\n7日建筑巡礼'} color="#0d315f" fontSize={112} style={{left: 70, top: 124, whiteSpace: 'pre-line', lineHeight: 1.04, opacity: interpolate(frame, [0 * fps, 0.75 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), translate: interpolate(frame, [0 * fps, 0.9 * fps], ['0px -32px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
       <TextLayer name="Subtitle · 7 days" premountFor={fps} text="七天 · 三座城市 · 八座地标" color="#526d8d" fontSize={29} style={{left: 76, top: 385, letterSpacing: 2, opacity: interpolate(frame, [0.5 * fps, 1.1 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
-      <Plane name="Plane · 线稿装饰" premountFor={fps} color="#5f9bd2" style={{right: 80, top: 300, fontSize: 84, opacity: 0.7, rotate: '-20deg', translate: interpolate(frame, [0.4 * fps, 2.4 * fps], ['120px 20px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
+      <Plane name="Plane · 线稿装饰" premountFor={fps} color="#5f9bd2" size={135} style={{right: 80, top: 300, opacity: 0.7, rotate: '-20deg', translate: interpolate(frame, [0.4 * fps, 2.4 * fps], ['120px 20px', '0px 0px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
       
       <TravelCard
         name="Final Card · 巴黎"

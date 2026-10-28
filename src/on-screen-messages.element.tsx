@@ -4,6 +4,20 @@ import {Easing, Interactive, interpolate, useCurrentFrame, useVideoConfig, type 
 
 type Props = {readonly incomingText: string; readonly outgoingText: string; readonly style?: React.CSSProperties};
 
+// Shared reveal motion for the original message bubbles and the opening notification card.
+export const onScreenMessageEntrance = (frame: number, start: number, end: number): React.CSSProperties => ({
+	opacity: interpolate(frame, [start, end], [0, 1], {
+		easing: Easing.bezier(0.16, 1, 0.3, 1),
+		extrapolateLeft: 'clamp',
+		extrapolateRight: 'clamp',
+	}),
+	translate: interpolate(frame, [start, end], ['0px 32px', '0px 0px'], {
+		easing: Easing.bezier(0.16, 1, 0.3, 1),
+		extrapolateLeft: 'clamp',
+		extrapolateRight: 'clamp',
+	}),
+});
+
 const OnScreenMessagesInner: React.FC<Props> = ({incomingText, outgoingText, style}) => {
 	const {fps} = useVideoConfig();
 	const frame = useCurrentFrame() * 30 / fps;
@@ -78,8 +92,14 @@ const OnScreenMessagesInner: React.FC<Props> = ({incomingText, outgoingText, sty
 						width: 'fit-content',
 						willChange: 'opacity, transform',
 						wordWrap: 'break-word',
+						display: 'flex',
+						alignItems: 'center',
+						gap: 18,
 					}}
 				>
+					<Interactive.Div name="苹果短信图标" style={{width: 58, height: 58, borderRadius: 14, flex: '0 0 auto', background: 'linear-gradient(180deg,#60ec6b,#12c83d)', display: 'grid', placeItems: 'center'}}>
+						<div style={{width: 35, height: 28, borderRadius: '50%', background: '#fff', position: 'relative'}}><div style={{position: 'absolute', width: 11, height: 11, background: '#fff', bottom: -3, left: 2, rotate: '28deg'}} /></div>
+					</Interactive.Div>
 					{incomingText}
 				</Interactive.Div>
 				<Interactive.Div

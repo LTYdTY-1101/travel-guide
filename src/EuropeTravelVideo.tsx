@@ -1,10 +1,8 @@
-import {LocationLowerThird} from './location-lower-third.element';
-import {Series, useVideoConfig} from 'remotion';
+import {Series, staticFile, useVideoConfig} from 'remotion';
+import {Audio} from '@remotion/media';
+import {DomesticFirstLeg} from './components/DomesticFirstLeg';
 import {
   Scene01Messages,
-  Scene02Departure,
-  Scene03CardCompact,
-  Scene04FlightToEurope,
   Scene05Paris,
   Scene06ParisBarcelona,
   Scene07Barcelona,
@@ -20,19 +18,13 @@ export const EuropeTravelVideo: React.FC = () => {
   return (
     <>
       <Series>
-        <Series.Sequence name="01 · 苹果信息开场" durationInFrames={120} premountFor={fps}>
-          <Scene01Messages />
+        <Series.Sequence name="01 · 对话到地图与机票" durationInFrames={240} premountFor={fps}>
+          <Scene01Messages domesticTicket />
         </Series.Sequence>
-        <Series.Sequence name="02 · 上海出发信息卡" durationInFrames={120} premountFor={fps}>
-          <Scene02Departure />
+        <Series.Sequence name="02 · 上海到三亚湾、汽车到万宁兴隆" durationInFrames={624} premountFor={fps}>
+          <DomesticFirstLeg />
         </Series.Sequence>
-        <Series.Sequence name="03 · 信息卡缩小吸附" durationInFrames={120} premountFor={fps}>
-          <Scene03CardCompact />
-        </Series.Sequence>
-        <Series.Sequence name="04 · 上海飞往巴黎" durationInFrames={120} premountFor={fps}>
-          <Scene04FlightToEurope />
-        </Series.Sequence>
-        <Series.Sequence name="05 · 巴黎建筑" durationInFrames={240} premountFor={fps}>
+        <Series.Sequence name="05 · 巴黎建筑" durationInFrames={360} premountFor={fps}>
           <Scene05Paris />
         </Series.Sequence>
         <Series.Sequence name="06 · 巴黎到巴塞罗那" durationInFrames={120} premountFor={fps}>
@@ -57,25 +49,7 @@ export const EuropeTravelVideo: React.FC = () => {
           <Scene12Finale />
         </Series.Sequence>
       </Series>
-      <LocationLowerThird name="地点登场 · 中国 · 上海" location="中国 · 上海" icon="pin" customIcon="" iconSize={104} iconColor="#2563eb" fontSize={54} textColor="#18181b" fontFamily="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, Arial, sans-serif" from={4 * fps} durationInFrames={12 * fps} premountFor={fps} style={{position: 'absolute', left: 8, top: 72, width: 960, minHeight: 138}} />
-      <LocationLowerThird name="地点登场 · 法国 · 巴黎" location="法国 · 巴黎" icon="pin" customIcon="" iconSize={104} iconColor="#2563eb" fontSize={54} textColor="#18181b" fontFamily="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, Arial, sans-serif" from={16 * fps} durationInFrames={12 * fps} premountFor={fps} style={{position: 'absolute', left: 8, top: 72, width: 960, minHeight: 138}} />
-      <LocationLowerThird name="地点登场 · 西班牙 · 巴塞罗那" location="西班牙 · 巴塞罗那" icon="pin" customIcon="" iconSize={104} iconColor="#2563eb" fontSize={54} textColor="#18181b" fontFamily="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, Arial, sans-serif" from={28 * fps} durationInFrames={14 * fps} premountFor={fps} style={{position: 'absolute', left: 8, top: 72, width: 960, minHeight: 138}} />
-      <LocationLowerThird
-        name="地点登场 · 意大利 · 罗马"
-        location="意大利 · 罗马"
-        icon="pin"
-        customIcon=""
-        iconSize={80}
-        iconColor={'#ff3232'}
-        fontSize={54}
-        textColor="#18181b"
-        fontFamily="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, Arial, sans-serif"
-        from={42 * fps}
-        durationInFrames={10 * fps}
-        premountFor={fps}
-        style={{position: 'absolute', left: 8, top: 72, width: 960, minHeight: 138}}
-      />
-      <LocationLowerThird name="地点登场 · 梵蒂冈" location="梵蒂冈" icon="pin" customIcon="" iconSize={104} iconColor="#2563eb" fontSize={54} textColor="#18181b" fontFamily="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, Arial, sans-serif" from={52 * fps} durationInFrames={6 * fps} premountFor={fps} style={{position: 'absolute', left: 8, top: 72, width: 960, minHeight: 138}} />
+      <Audio name="BGM · 120 BPM" src={staticFile('audio/bgm-120bpm.wav')} volume={0.17} loop premountFor={fps} />
     </>
   );
 };

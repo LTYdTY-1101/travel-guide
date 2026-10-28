@@ -1,9 +1,8 @@
 import {Composition, Folder} from 'remotion';
 import {EuropeTravelVideo} from './EuropeTravelVideo';
+import {ChinaFirstLegPreview} from './ChinaFirstLegPreview';
 import {
   Scene01Messages,
-  Scene02Departure,
-  Scene03CardCompact,
   Scene04FlightToEurope,
   Scene05Paris,
   Scene06ParisBarcelona,
@@ -21,17 +20,16 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="Europe7DayInteractive"
         component={EuropeTravelVideo}
-        durationInFrames={2160}
+        durationInFrames={2664}
         fps={30}
         width={1080}
         height={1920}
       />
+      <Composition id="ChinaFirstLegPreview" component={ChinaFirstLegPreview} durationInFrames={660} fps={30} width={1080} height={1920} />
       <Folder name="Scenes">
-        <Composition id="Scene01-Messages" component={Scene01Messages} durationInFrames={120} fps={30} width={1080} height={1920} />
-        <Composition id="Scene02-Departure" component={Scene02Departure} durationInFrames={120} fps={30} width={1080} height={1920} />
-        <Composition id="Scene03-CardCompact" component={Scene03CardCompact} durationInFrames={120} fps={30} width={1080} height={1920} />
-        <Composition id="Scene04-FlightToEurope" component={Scene04FlightToEurope} durationInFrames={120} fps={30} width={1080} height={1920} />
-        <Composition id="Scene05-Paris" component={Scene05Paris} durationInFrames={240} fps={30} width={1080} height={1920} />
+        <Composition id="Scene01-Messages" component={Scene01Messages} durationInFrames={240} fps={30} width={1080} height={1920} />
+        <Composition id="Scene04-FlightToEurope" component={Scene04FlightToEurope} durationInFrames={240} fps={30} width={1080} height={1920} />
+        <Composition id="Scene05-Paris" component={Scene05Paris} durationInFrames={360} fps={30} width={1080} height={1920} />
         <Composition id="Scene06-ParisBarcelona" component={Scene06ParisBarcelona} durationInFrames={120} fps={30} width={1080} height={1920} />
         <Composition id="Scene07-Barcelona" component={Scene07Barcelona} durationInFrames={300} fps={30} width={1080} height={1920} />
         <Composition id="Scene08-BarcelonaRome" component={Scene08BarcelonaRome} durationInFrames={120} fps={30} width={1080} height={1920} />

@@ -1,0 +1,211 @@
+{
+  "pvg-runway": {
+    "center": [
+      121.805,
+      31.1434
+    ],
+    "zoom": 15,
+    "grid": [
+      3,
+      2
+    ]
+  },
+  "pvg-district": {
+    "center": [
+      121.805,
+      31.1434
+    ],
+    "zoom": 12.6,
+    "grid": [
+      1,
+      1
+    ]
+  },
+  "shanghai-region": {
+    "center": [
+      121.64,
+      31.19
+    ],
+    "zoom": 10.5,
+    "grid": [
+      1,
+      1
+    ]
+  },
+  "china-coast": {
+    "center": [
+      119.0,
+      32.0
+    ],
+    "zoom": 8.2,
+    "grid": [
+      3,
+      2
+    ]
+  },
+  "east-asia-camera": {
+    "center": [
+      100,
+      35
+    ],
+    "zoom": 5.8,
+    "grid": [
+      3,
+      2
+    ]
+  },
+  "eurasia-camera-esri": {
+    "center": [
+      62,
+      47
+    ],
+    "zoom": 3.1,
+    "grid": [
+      3,
+      2
+    ]
+  },
+  "europe-region": {
+    "center": [
+      2.5,
+      49
+    ],
+    "zoom": 5.8,
+    "grid": [
+      3,
+      2
+    ]
+  },
+  "paris-region": {
+    "center": [
+      2.45,
+      48.94
+    ],
+    "zoom": 10.5,
+    "grid": [
+      1,
+      1
+    ]
+  },
+  "france-region": {
+    "center": [
+      2.45,
+      48.94
+    ],
+    "zoom": 8.2,
+    "grid": [
+      3,
+      2
+    ]
+  },
+  "paris-city": {
+    "center": [
+      2.3522,
+      48.8566
+    ],
+    "zoom": 14,
+    "grid": [
+      1,
+      1
+    ]
+  },
+  "china-overview": {
+    "center": [
+      115.5,
+      25.0
+    ],
+    "zoom": 5.5,
+    "grid": [
+      3,
+      2
+    ]
+  },
+  "hainan-island": {
+    "center": [
+      110.0,
+      19.1
+    ],
+    "zoom": 8.5,
+    "grid": [
+      3,
+      2
+    ]
+  },
+  "hainan-route": {
+    "center": [
+      109.86,
+      18.5
+    ],
+    "zoom": 10.7,
+    "grid": [
+      3,
+      2
+    ]
+  },
+  "sanya-area": {
+    "center": [
+      109.49,
+      18.26
+    ],
+    "zoom": 13.0,
+    "grid": [
+      3,
+      2
+    ]
+  },
+  "sanya-bay-close": {
+    "center": [
+      109.489,
+      18.26
+    ],
+    "zoom": 15,
+    "grid": [
+      2,
+      2
+    ]
+  },
+  "wanning-area": {
+    "center": [
+      110.193,
+      18.735
+    ],
+    "zoom": 13.0,
+    "grid": [
+      3,
+      2
+    ]
+  },
+  "wanning-xinglong-close": {
+    "center": [
+      110.193,
+      18.735
+    ],
+    "zoom": 15,
+    "grid": [
+      2,
+      2
+    ]
+  },
+  "pvg-district-wide": {
+    "center": [
+      121.805,
+      31.1434
+    ],
+    "zoom": 12.6,
+    "grid": [
+      3,
+      2
+    ]
+  },
+  "shanghai-region-wide": {
+    "center": [
+      121.64,
+      31.19
+    ],
+    "zoom": 10.5,
+    "grid": [
+      3,
+      2
+    ]
+  }
+}

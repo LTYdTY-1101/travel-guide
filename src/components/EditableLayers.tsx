@@ -2,6 +2,7 @@ import type React from 'react';
 import {
   Img,
   Interactive,
+  staticFile,
   type InteractivitySchema,
 } from 'remotion';
 
@@ -83,7 +84,7 @@ const MapLayerInner: React.FC<MapLayerProps> = ({src, label, tint, style}) => {
       </Interactive.Div>
       {src && (
         <div style={{position: 'absolute', bottom: 14, right: 14, zIndex: 100, padding: '8px 12px', borderRadius: 6, backgroundColor: 'rgba(255,255,255,.94)', color: '#425466', fontFamily: 'Arial, sans-serif', fontSize: 16, lineHeight: 1.45, textAlign: 'right'}}>
-          {src.includes('shanghai.png') ? '© 高德地图 · GS(2018)1709号' : src.endsWith('.jpg') ? <>Esri, HERE, Garmin, USGS, Intermap, INCREMENT P, NRCan<br />Esri Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC<br />© OpenStreetMap contributors and the GIS User Community</> : 'Map data: Natural Earth (public domain)'}
+          {src.includes('shanghai.png') ? '© 高德地图 · GS(2018)1709号' : src.includes('pvg-runway') || src.includes('paris-city') ? 'Imagery © Esri, Maxar, Earthstar Geographics, GIS User Community' : src.endsWith('.jpg') ? <>Esri, HERE, Garmin, USGS, Intermap, INCREMENT P, NRCan<br />Esri Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC<br />© OpenStreetMap contributors and the GIS User Community</> : 'Map data: Natural Earth (public domain)'}
         </div>
       )}
     </Interactive.Div>
@@ -323,24 +324,24 @@ export const Pin = Interactive.withSchema({
   wrapInSequence: true,
 });
 
-type PlaneProps = WithStyle & {readonly color: string};
-const PlaneInner: React.FC<PlaneProps> = ({color, style}) => (
+type PlaneProps = WithStyle & {readonly color: string; readonly size: number};
+const PlaneInner: React.FC<PlaneProps> = ({color, size, style}) => (
   <Interactive.Div
     style={{
       position: 'absolute',
-      fontSize: 86,
-      lineHeight: 1,
-      color,
-      textShadow: '0 12px 20px rgba(55,78,104,.28)',
+      width: size,
+      height: size,
+      filter: 'drop-shadow(0 20px 15px rgba(33,61,85,.27))',
       ...style,
     }}
   >
-    ✈
+    <Img src={staticFile('plane-c4d.png')} style={{width: '100%', height: '100%', objectFit: 'contain', filter: color === '#ffffff' ? undefined : 'saturate(.9)'}} />
   </Interactive.Div>
 );
 
 const planeSchema = {
   color: {type: 'color', default: '#ffffff', description: '飞机颜色'},
+  size: {type: 'number', hiddenFromList: false, default: 170, min: 60, max: 400, step: 1, description: '飞机尺寸，可在 Studio 调整或添加关键帧'},
 } as const satisfies InteractivitySchema;
 
 export const Plane = Interactive.withSchema({
