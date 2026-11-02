@@ -160,7 +160,7 @@ const schema = {
   cruiseZoom:{type:'number',hiddenFromList:false,default:3.4,min:2,max:6,step:.1,description:'巡航缩放'},
   arrivalZoom:{type:'number',hiddenFromList:false,default:14.5,min:12,max:17,step:.1,description:'抵达缩放'},
   planeSize:{type:'number',hiddenFromList:false,default:170,min:60,max:360,step:1,description:'飞机尺寸（屏幕像素）'},
-  routeColor:{type:'color',default:'#378bb5',description:'蓝色实线航迹'},
+  routeColor:{type:'color',default:'#e43d37',description:'红色实线航迹'},
   routeWidth:{type:'number',hiddenFromList:false,default:8,min:2,max:24,step:1,description:'航迹宽度（屏幕像素）'},
   anchorX:{type:'number',hiddenFromList:false,default:.5,min:.25,max:.75,step:.01,description:'飞机水平位置（画面比例）'},
   anchorY:{type:'number',hiddenFromList:false,default:.57,min:.35,max:.75,step:.01,description:'飞机垂直位置（画面比例）'},
