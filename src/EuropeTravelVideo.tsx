@@ -12,7 +12,7 @@ export const EuropeTravelVideo:React.FC<TourProps>=(props)=>{
  const {fps}=useVideoConfig();
  return <AbsoluteFill style={{backgroundColor:'#f4f0e7'}}>
   <Sequence name="六站旅程 · 画面速度" playbackRate={props.playbackSpeed}>
-   {props.section==='full'&&<Sequence name="开场 · 原消息、GO 回复与机票" durationInFrames={Math.round(OPENING_SECONDS*fps)} premountFor={fps}><TourOpening/></Sequence>}
+   {(props.section==='full'||props.section==='paris-stage')&&<Sequence name="开场 · 消息、地图翻转与机票" durationInFrames={Math.round(OPENING_SECONDS*fps)} premountFor={fps}><TourOpening/></Sequence>}
    <EuropeTourScene {...props}/>
   </Sequence>
   <TourSoundtrack {...props}/>
