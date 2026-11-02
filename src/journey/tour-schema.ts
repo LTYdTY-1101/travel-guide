@@ -1,6 +1,6 @@
 import {z} from 'zod/v3';
 export const tourSchema=z.object({
-  section:z.enum(['full','paris','barcelona','rome']).describe('预览分段'),
+  section:z.enum(['full','paris','paris-stage','barcelona','rome']).describe('预览分段'),
   playbackSpeed:z.number().min(.25).max(4).describe('画面速度（音乐保持原速；编排节奏默认 1）'),
   planeSize:z.number().min(70).max(320).describe('飞机尺寸'),
   tramSize:z.number().min(60).max(240).describe('电车尺寸'),
