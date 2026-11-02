@@ -12,7 +12,7 @@ export const beat=(n:number)=>{
 export const OPENING_SECONDS=beat(16),CLOSING_SECONDS=beat(8);
 export type Stop={id:string;name:string;city:string;day:number;date:string;longitude:number;latitude:number;image:string;airport:boolean;zoom:number;holdSeconds:number;size:number;revealDelay:number;offsetX:number;offsetY:number;aspect:number;groundX:number;groundY:number;groundWidth:number;pitch:number;heading:number;heroY:number;subtitle:string};
 export type Leg={id:string;kind:'flight'|'tram';from:string;to:string;seconds:number;day:number;cruiseZoom:number};
-export type TourProps={section:'full'|'paris'|'barcelona'|'rome';playbackSpeed:number;planeSize:number;tramSize:number;tramArtBearing:number;flightColor:string;groundColor:string;routeWidth:number;cameraPitch:number;anchorY:number;showLabels:boolean;musicVolume:number;stops:Stop[];legs:Leg[]};
+export type TourProps={section:'full'|'paris'|'paris-stage'|'barcelona'|'rome';playbackSpeed:number;planeSize:number;tramSize:number;tramArtBearing:number;flightColor:string;groundColor:string;routeWidth:number;cameraPitch:number;anchorY:number;showLabels:boolean;musicVolume:number;stops:Stop[];legs:Leg[]};
 
 // Independently edited beats. Durations keep their individual musical phrasing.
 const counts=[32,6,12,8,10,6,16,6,12,6,12,6,16,8,16,10,18];
@@ -28,12 +28,12 @@ const stopArt:Record<string,Partial<Stop>>={
 };
 const holdIndices:Record<string,number>={eiffel:2,'notre-dame':4,casa:8,mila:10,vatican:14,trevi:16};
 const leg=(i:number,kind:Leg['kind'],from:string,to:string,day:number,cruiseZoom=5.5):Leg=>({id:from+'--'+to,kind,from,to,seconds:spans[i].seconds,day,cruiseZoom});
-export const DEFAULT_TOUR:TourProps={section:'full',playbackSpeed:1,planeSize:170,tramSize:132,tramArtBearing:225,flightColor:'#378bb5',groundColor:'#d58a4e',routeWidth:8,cameraPitch:32,anchorY:.57,showLabels:true,musicVolume:.75,
+export const DEFAULT_TOUR:TourProps={section:'full',playbackSpeed:1,planeSize:190,tramSize:132,tramArtBearing:225,flightColor:'#e43d37',groundColor:'#d58a4e',routeWidth:8,cameraPitch:32,anchorY:.57,showLabels:true,musicVolume:.75,
  stops:places.map(p=>{
   const h=holdIndices[p.id],span=spans[h],fullBeat=span?Math.ceil((span.startBeat+2)/4)*4:0;
   return {id:p.id,name:p.name,city:p.city,day:p.day,date:'10/'+String(p.day).padStart(2,'0'),longitude:p.coord[0],latitude:p.coord[1],image:p.image??'',airport:p.airport??false,zoom:p.zoom,holdSeconds:span?.seconds??0,size:p.size??700,revealDelay:span?Math.max(.1,beat(fullBeat)-beat(span.startBeat)-.8):.2,offsetX:0,offsetY:0,aspect:1,groundX:.5,groundY:.84,groundWidth:.75,pitch:18,heading:0,heroY:.57,subtitle:'',...stopArt[p.id]};
  }),
- legs:[leg(0,'flight','pvg','cdg',1,3.4),leg(1,'tram','cdg','eiffel',1),leg(3,'tram','eiffel','notre-dame',2),leg(5,'tram','notre-dame','cdg',2),leg(6,'flight','cdg','bcn',4,6),leg(7,'tram','bcn','casa',4),leg(9,'tram','casa','mila',4),leg(11,'tram','mila','bcn',4),leg(12,'flight','bcn','fco',6,6),leg(13,'tram','fco','vatican',6),leg(15,'tram','vatican','trevi',7)]};
+ legs:[{...leg(0,'flight','pvg','cdg',1,3.4),seconds:5.3},leg(1,'tram','cdg','eiffel',1),leg(3,'tram','eiffel','notre-dame',2),{...leg(6,'flight','notre-dame','bcn',4,6),seconds:7.2},leg(7,'tram','bcn','casa',4),leg(9,'tram','casa','mila',4),leg(11,'tram','mila','bcn',4),leg(12,'flight','bcn','fco',6,6),leg(13,'tram','fco','vatican',6),leg(15,'tram','vatican','trevi',7)]};
 
 type RoadRecord={motion:{geometry:LineString;km:number;profile:number[]};snappedStops:number[][];source:string};
 const roadRecords=streets as unknown as Record<string,RoadRecord>;
@@ -78,9 +78,10 @@ export const buildTour=(props:Pick<TourProps,'stops'|'legs'|'section'>)=>{
   const s=steps[i];s.startBearing=s.from.airport?(steps[i-1]?.endBearing??0):s.from.heading;s.endBearing=s.to.airport?(steps[i+1]?.startBearing??0):s.to.heading;
  }
  const first=props.section==='paris'?'cdg--eiffel':props.section==='barcelona'?'bcn--casa':props.section==='rome'?'fco--vatican':steps[0].id;
- const last=props.section==='paris'?'notre-dame--cdg':props.section==='barcelona'?'mila--bcn':steps.at(-1)!.id;
+ const last=props.section==='paris'||props.section==='paris-stage'?'notre-dame--bcn':props.section==='barcelona'?'mila--bcn':steps.at(-1)!.id;
  const a=steps.findIndex(s=>s.id===first),b=steps.findIndex(s=>s.id===last)+1;if(a<0||b<1)throw new Error('预览分段缺少对应交通段');
  const selected=steps.slice(a,b),offset=selected[0].start;
+ if(props.section==='paris-stage')selected[selected.length-1]={...selected[selected.length-1],end:selected[selected.length-1].start+1.45};
  return {steps:selected.map(s=>({...s,start:s.start-offset,end:s.end-offset})),seconds:selected.at(-1)!.end-offset,offset};
 };
 const geoBlend=(a:Coordinate,b:Coordinate,t:number):Coordinate=>{
@@ -94,6 +95,13 @@ export const evaluateStep=(step:Step,seconds:number)=>{
  if(step.kind==='flight'&&step.route){
   const s=flightState(local,step.seconds-.65,step.route,step.from.zoom,step.leg!.cruiseZoom,step.to.zoom);
   target=position=s.position;zoom=s.zoom;bearing=signed(s.heading)-12*Math.sin(Math.PI*s.u)**2;pitch=18*(1-.72*Math.sin(Math.PI*s.u)**2);anchorY=.57;
+  if(!step.from.airport){
+   const handoff=smooth(local/1.2);
+   zoom=(step.from.zoom-.3)*(1-handoff)+zoom*handoff;
+   bearing=step.from.heading+(shortAngle(step.from.heading,bearing)-step.from.heading)*handoff;
+   pitch=(step.from.pitch-15)*(1-handoff)+pitch*handoff;
+   anchorY=(step.from.heroY-.06)*(1-handoff)+anchorY*handoff;
+  }
   altitude=s.altitude;progress=s.progress;opacity=1-smooth((local-(step.seconds-.65))/.5);line=slice(step.route,s.km);tangentBefore=at(step.route,s.km-.05);tangentAfter=at(step.route,s.km+.05);
  }else if(step.kind==='tram'&&step.route){
   progress=roadProgress(clamp((local-.22)/(step.seconds-.44)),step.profile!);const km=progress*step.route.km;position=at(step.route,km);
@@ -122,5 +130,5 @@ export const evaluateStep=(step:Step,seconds:number)=>{
  return {step,t,local,target,zoom,bearing,pitch,anchorY,position,altitude,progress,opacity,line,ahead,tangentBefore,tangentAfter,dim,reveal,backdropScale,modelScale};
 };
 export type TourState=ReturnType<typeof evaluateStep>;
-export const totalFrames=(p:TourProps)=>Math.ceil(Math.round((buildTour(p).seconds+(p.section==='full'?OPENING_SECONDS+CLOSING_SECONDS:0))*30)/p.playbackSpeed);
+export const totalFrames=(p:TourProps)=>Math.ceil(Math.round((buildTour(p).seconds+(p.section==='full'?OPENING_SECONDS+CLOSING_SECONDS:p.section==='paris-stage'?OPENING_SECONDS:0))*30)/p.playbackSpeed);
 export const openingLegacySeconds=(seconds:number)=>curve(seconds,[0,beat(3),beat(7),beat(9),beat(10),beat(11),beat(14),OPENING_SECONDS],[0,1.30,3.50,4.35,4.90,5.50,6.80,8]);
