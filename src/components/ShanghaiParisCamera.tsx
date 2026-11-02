@@ -110,7 +110,7 @@ export const ShanghaiParisCamera: React.FC<{planeSize: number; style?: React.CSS
     <Interactive.Div name="上海 → 巴黎 · 连续飞行镜头" style={{position: 'absolute', inset: 0, overflow: 'hidden', backgroundColor: '#9fb7bc', perspective: 1600, ...style}}>
       <Interactive.Div name="Camera · 经纬度与高度统一驱动" premountFor={fps} style={{position: 'absolute', inset: 0, transformOrigin: `${PLANE_X}px ${PLANE_Y}px`, transform: `rotateX(${camera.pitch}deg) rotateZ(${camera.rotation}deg)`}}>
         {VIEWS.map((view) => <MapLevel key={view.name} view={view} lon={camera.lon} lat={camera.lat} zoom={camera.zoom} />)}
-        <RouteLayer name="Route · 飞机机尾至巴黎" premountFor={fps} path={linePoints.join(' ')} progress={1} color="#ed4438" width={Math.max(5, 11 - camera.zoom * .3)} />
+        <RouteLayer name="Route · 飞机机尾至巴黎" premountFor={fps} path={linePoints.join(' ')} progress={1} color="#e43d37" width={Math.max(5, 11 - camera.zoom * .3)} />
       </Interactive.Div>
       <Interactive.Div name="Shadow · 飞机轮廓随高度分离" premountFor={fps} style={{position: 'absolute', left: PLANE_X - planeSize / 2, top: PLANE_Y - planeSize / 2, width: planeSize, height: planeSize, opacity: (1 - camera.arrival) * (1 - camera.height * .76), translate: `${camera.height * 76}px ${10 + camera.height * 150}px`, scale: 1 - camera.height * .28, filter: `brightness(0) blur(${4 + camera.height * 23}px)`}}>
         <Img src={staticFile('plane-c4d.png')} style={{width: '100%', height: '100%', objectFit: 'contain'}} />
