@@ -1,0 +1,38 @@
+[
+  {
+    "width": 1080,
+    "height": 1920,
+    "duration": "4.000000",
+    "nb_frames": "120",
+    "side_data_list": [
+      {}
+    ],
+    "name": "flight",
+    "decodedFrames": 120,
+    "minPixelStdDev": 11.372872564757273
+  },
+  {
+    "width": 1080,
+    "height": 1920,
+    "duration": "3.500000",
+    "nb_frames": "105",
+    "side_data_list": [
+      {}
+    ],
+    "name": "tram-turn",
+    "decodedFrames": 105,
+    "minPixelStdDev": 9.95090223925274
+  },
+  {
+    "width": 1080,
+    "height": 1920,
+    "duration": "3.000000",
+    "nb_frames": "90",
+    "side_data_list": [
+      {}
+    ],
+    "name": "landmark-rise",
+    "decodedFrames": 90,
+    "minPixelStdDev": 7.096669526986038
+  }
+]

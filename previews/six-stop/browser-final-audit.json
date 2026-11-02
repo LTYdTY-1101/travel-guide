@@ -1,0 +1,55 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 30,
+      "phase": "pvg--cdg"
+    },
+    {
+      "id": "ParisTour",
+      "frame": 30,
+      "phase": "cdg--eiffel"
+    },
+    {
+      "id": "BarcelonaTour",
+      "frame": 30,
+      "phase": "bcn--casa"
+    },
+    {
+      "id": "RomeVaticanTour",
+      "frame": 30,
+      "phase": "fco--vatican"
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 1199,
+      "phase": "visit-notre-dame"
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 1784,
+      "phase": "visit-casa"
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 2052,
+      "phase": "visit-mila"
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 2715,
+      "phase": "visit-vatican"
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3122,
+      "phase": "visit-trevi"
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3330,
+      "phase": "visit-trevi"
+    }
+  ]
+}

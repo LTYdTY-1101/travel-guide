@@ -6,3 +6,10 @@ build
 .env
 .env.*
 !.env.example
+
+# Local QA frames and audio-analysis intermediates; keep compact audit records.
+previews/**
+!previews/**/
+!previews/**/*.json
+!previews/**/*-render-contact.jpg
+!previews/six-stop/final-trevi.png

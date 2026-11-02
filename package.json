@@ -6,14 +6,19 @@
     "dev": "remotion studio --no-open",
     "build": "remotion bundle",
     "render": "remotion render src/index.ts Europe7DayInteractive out/europe-7-day.mp4",
+    "render:flight": "remotion render src/index.ts ShanghaiParisVectorFlight out/shanghai-paris-vector-preview.mp4 --gl=angle --concurrency=1 --port=3105 --timeout=120000",
+    "check:flight": "node scripts/validate-vector-flight.mjs",
     "lint": "eslint src && tsc --noEmit",
     "audio": "node scripts/generate-audio.mjs",
-    "maps": "python3 scripts/generate-maps.py"
+    "maps": "python3 scripts/generate-maps.py",
+    "check:tour": "node scripts/validate-europe-tour.cjs"
   },
   "license": "UNLICENSED",
   "dependencies": {
     "@remotion/cli": "4.0.538",
     "@remotion/media": "4.0.538",
+    "@turf/turf": "^7.4.0",
+    "maplibre-gl": "^6.16.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "remotion": "4.0.538",

@@ -1,0 +1,545 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 70,
+      "phase": "pvg--cdg",
+      "ms": 2090
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 140,
+      "phase": "pvg--cdg",
+      "ms": 2688
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 220,
+      "phase": "pvg--cdg",
+      "ms": 2611
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 240,
+      "phase": "pvg--cdg",
+      "ms": 917
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 254,
+      "phase": "pvg--cdg",
+      "ms": 417
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 588,
+      "phase": "pvg--cdg",
+      "ms": 8757
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 922,
+      "phase": "pvg--cdg",
+      "ms": 780
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 940,
+      "phase": "cdg--eiffel",
+      "ms": 924
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 1034,
+      "phase": "cdg--eiffel",
+      "ms": 2927
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 1127,
+      "phase": "cdg--eiffel",
+      "ms": 2063
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 1214,
+      "phase": "visit-eiffel",
+      "ms": 1139
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 1300,
+      "phase": "eiffel--louvre",
+      "ms": 111
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 1401,
+      "phase": "eiffel--louvre",
+      "ms": 4231
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 1502,
+      "phase": "eiffel--louvre",
+      "ms": 4698
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 1581,
+      "phase": "visit-louvre",
+      "ms": 1182
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 1659,
+      "phase": "louvre--notre-dame",
+      "ms": 124
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 1739,
+      "phase": "louvre--notre-dame",
+      "ms": 6357
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 1818,
+      "phase": "louvre--notre-dame",
+      "ms": 411
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 1896,
+      "phase": "visit-notre-dame",
+      "ms": 1638
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 1976,
+      "phase": "notre-dame--sacre-coeur",
+      "ms": 120
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 2084,
+      "phase": "notre-dame--sacre-coeur",
+      "ms": 3060
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 2192,
+      "phase": "notre-dame--sacre-coeur",
+      "ms": 813
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 2279,
+      "phase": "visit-sacre-coeur",
+      "ms": 1119
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 2364,
+      "phase": "sacre-coeur--cdg",
+      "ms": 113
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 2444,
+      "phase": "sacre-coeur--cdg",
+      "ms": 3394
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 2523,
+      "phase": "sacre-coeur--cdg",
+      "ms": 472
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 2534,
+      "phase": "cdg--bcn",
+      "ms": 249
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 2724,
+      "phase": "cdg--bcn",
+      "ms": 5418
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 2914,
+      "phase": "cdg--bcn",
+      "ms": 1463
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 2925,
+      "phase": "bcn--sagrada",
+      "ms": 194
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3005,
+      "phase": "bcn--sagrada",
+      "ms": 2241
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3084,
+      "phase": "bcn--sagrada",
+      "ms": 4018
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3177,
+      "phase": "visit-sagrada",
+      "ms": 1151
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3271,
+      "phase": "sagrada--casa",
+      "ms": 94
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3357,
+      "phase": "sagrada--casa",
+      "ms": 8289
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3443,
+      "phase": "sagrada--casa",
+      "ms": 421
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3522,
+      "phase": "visit-casa",
+      "ms": 1351
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3599,
+      "phase": "casa--mila",
+      "ms": 103
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3650,
+      "phase": "casa--mila",
+      "ms": 1122
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3700,
+      "phase": "casa--mila",
+      "ms": 78
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3777,
+      "phase": "visit-mila",
+      "ms": 1225
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3855,
+      "phase": "mila--bcn",
+      "ms": 109
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3927,
+      "phase": "mila--bcn",
+      "ms": 1418
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 3999,
+      "phase": "mila--bcn",
+      "ms": 664
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 4010,
+      "phase": "bcn--fco",
+      "ms": 219
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 4200,
+      "phase": "bcn--fco",
+      "ms": 3954
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 4390,
+      "phase": "bcn--fco",
+      "ms": 901
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 4402,
+      "phase": "fco--colosseum",
+      "ms": 177
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 4488,
+      "phase": "fco--colosseum",
+      "ms": 2319
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 4574,
+      "phase": "fco--colosseum",
+      "ms": 1683
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 4661,
+      "phase": "visit-colosseum",
+      "ms": 1571
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 4745,
+      "phase": "colosseum--forum",
+      "ms": 98
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 4796,
+      "phase": "colosseum--forum",
+      "ms": 4250
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 4846,
+      "phase": "colosseum--forum",
+      "ms": 655
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 4923,
+      "phase": "visit-forum",
+      "ms": 1438
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 5001,
+      "phase": "forum--pantheon",
+      "ms": 103
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 5073,
+      "phase": "forum--pantheon",
+      "ms": 1952
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 5145,
+      "phase": "forum--pantheon",
+      "ms": 218
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 5223,
+      "phase": "visit-pantheon",
+      "ms": 1469
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 5302,
+      "phase": "pantheon--st-peters-square",
+      "ms": 101
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 5388,
+      "phase": "pantheon--st-peters-square",
+      "ms": 2910
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 5474,
+      "phase": "pantheon--st-peters-square",
+      "ms": 251
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 5553,
+      "phase": "visit-st-peters-square",
+      "ms": 1350
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 5629,
+      "phase": "st-peters-square--vatican",
+      "ms": 151
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 5661,
+      "phase": "st-peters-square--vatican",
+      "ms": 1201
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 5693,
+      "phase": "st-peters-square--vatican",
+      "ms": 90
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 5777,
+      "phase": "visit-vatican",
+      "ms": 1107
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 5863,
+      "phase": "vatican--trevi",
+      "ms": 101
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 5957,
+      "phase": "vatican--trevi",
+      "ms": 1693
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 6050,
+      "phase": "vatican--trevi",
+      "ms": 269
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 6137,
+      "phase": "visit-trevi",
+      "ms": 1231
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 6221,
+      "phase": "trevi--spanish-steps",
+      "ms": 105
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 6279,
+      "phase": "trevi--spanish-steps",
+      "ms": 1360
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 6337,
+      "phase": "trevi--spanish-steps",
+      "ms": 235
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 6414,
+      "phase": "visit-spanish-steps",
+      "ms": 1234
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 6492,
+      "phase": "spanish-steps--fco",
+      "ms": 106
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 6572,
+      "phase": "spanish-steps--fco",
+      "ms": 1238
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 6651,
+      "phase": "spanish-steps--fco",
+      "ms": 800
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 6668,
+      "phase": "fco--pvg",
+      "ms": 186
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 7002,
+      "phase": "fco--pvg",
+      "ms": 4994
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 7336,
+      "phase": "fco--pvg",
+      "ms": 542
+    },
+    {
+      "id": "Europe7DayInteractive",
+      "frame": 7650,
+      "phase": "fco--pvg",
+      "ms": 1183
+    },
+    {
+      "id": "ParisTour",
+      "frame": 0,
+      "phase": "cdg--eiffel",
+      "ms": 1446
+    },
+    {
+      "id": "ParisTour",
+      "frame": 60,
+      "phase": "cdg--eiffel",
+      "ms": 2065
+    },
+    {
+      "id": "BarcelonaTour",
+      "frame": 0,
+      "phase": "bcn--sagrada",
+      "ms": 1272
+    },
+    {
+      "id": "BarcelonaTour",
+      "frame": 60,
+      "phase": "bcn--sagrada",
+      "ms": 1598
+    },
+    {
+      "id": "RomeVaticanTour",
+      "frame": 0,
+      "phase": "fco--colosseum",
+      "ms": 1044
+    },
+    {
+      "id": "RomeVaticanTour",
+      "frame": 60,
+      "phase": "fco--colosseum",
+      "ms": 1791
+    },
+    {
+      "id": "ReturnToShanghai",
+      "frame": 0,
+      "phase": "spanish-steps--fco",
+      "ms": 1199
+    },
+    {
+      "id": "ReturnToShanghai",
+      "frame": 60,
+      "phase": "spanish-steps--fco",
+      "ms": 2669
+    }
+  ]
+}

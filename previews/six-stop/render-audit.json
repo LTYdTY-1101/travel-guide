@@ -1,0 +1,30 @@
+{
+  "video": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 1080,
+        "height": 1920,
+        "duration": "6.000000",
+        "nb_frames": "180",
+        "side_data_list": [
+          {}
+        ]
+      },
+      {
+        "codec_type": "audio",
+        "duration": "6.016000",
+        "nb_frames": "284"
+      }
+    ]
+  },
+  "decodedFrames": 180,
+  "blankFrames": 0,
+  "exportedMusicCorrelation": 0.9972764227178744,
+  "exportedMusicLagMs": 0.0,
+  "landmarkFullSourceFrame": 1963,
+  "landmarkFullTestFrame": 133,
+  "musicAccentSeconds": 65.44126984126984
+}

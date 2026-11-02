@@ -1,0 +1,31 @@
+[
+  {
+    "name": "whole",
+    "language": "zh",
+    "languageProbability": 0.9303783178329468,
+    "vadSpeechSeconds": 7.776,
+    "segments": [
+      {
+        "start": 3.34,
+        "end": 22.83,
+        "text": "这句情歌下从人尽成个法",
+        "noSpeechProbability": 0.3413422107696533,
+        "averageLogProbability": -0.7864611053466797
+      },
+      {
+        "start": 22.83,
+        "end": 25.83,
+        "text": "不知道去哪我先去他的吧",
+        "noSpeechProbability": 0.3413422107696533,
+        "averageLogProbability": -0.7864611053466797
+      }
+    ]
+  },
+  {
+    "name": "selected-phrase",
+    "language": "zh",
+    "languageProbability": 0.5156936645507812,
+    "vadSpeechSeconds": 1.9639375,
+    "segments": []
+  }
+]

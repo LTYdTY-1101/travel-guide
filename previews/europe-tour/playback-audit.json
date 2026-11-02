@@ -1,0 +1,25 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "id": "Europe7DayInteractive",
+      "playedThroughFrame": 10
+    },
+    {
+      "id": "ParisTour",
+      "playedThroughFrame": 12
+    },
+    {
+      "id": "BarcelonaTour",
+      "playedThroughFrame": 19
+    },
+    {
+      "id": "RomeVaticanTour",
+      "playedThroughFrame": 16
+    },
+    {
+      "id": "ReturnToShanghai",
+      "playedThroughFrame": 19
+    }
+  ]
+}

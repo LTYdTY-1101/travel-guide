@@ -1,0 +1,256 @@
+{
+  "sections": [
+    {
+      "section": "full",
+      "frames": 3332,
+      "seconds": 111.06666666666666
+    },
+    {
+      "section": "paris",
+      "frames": 625,
+      "seconds": 20.833333333333332
+    },
+    {
+      "section": "barcelona",
+      "frames": 624,
+      "seconds": 20.8
+    },
+    {
+      "section": "rome",
+      "frames": 773,
+      "seconds": 25.766666666666666
+    }
+  ],
+  "stops": [
+    "eiffel",
+    "notre-dame",
+    "casa",
+    "mila",
+    "vatican",
+    "trevi"
+  ],
+  "flights": 3,
+  "groundLegs": 8,
+  "cameraBoundaryChecks": 16,
+  "maxHeadingDegreesPerFrame": 6.008447273176785,
+  "maxCameraDegreesPerFrame": 3.3895607550509794,
+  "opening": 7.9319727891156475,
+  "closing": 3.970975056689344,
+  "steps": [
+    {
+      "id": "pvg--cdg",
+      "kind": "flight",
+      "day": 1,
+      "start": 0,
+      "end": 15.863945578231295,
+      "mainStartFrame": 238,
+      "mainEndFrame": 714,
+      "seconds": 15.863945578231295
+    },
+    {
+      "id": "cdg--eiffel",
+      "kind": "tram",
+      "day": 1,
+      "start": 15.863945578231295,
+      "end": 18.84716553287982,
+      "mainStartFrame": 714,
+      "mainEndFrame": 803,
+      "seconds": 2.9832199546485256
+    },
+    {
+      "id": "visit-eiffel",
+      "kind": "hold",
+      "day": 1,
+      "start": 18.84716553287982,
+      "end": 24.793650793650798,
+      "mainStartFrame": 803,
+      "mainEndFrame": 982,
+      "seconds": 5.946485260770977
+    },
+    {
+      "id": "eiffel--notre-dame",
+      "kind": "tram",
+      "day": 2,
+      "start": 24.793650793650798,
+      "end": 28.76462585034014,
+      "mainStartFrame": 982,
+      "mainEndFrame": 1101,
+      "seconds": 3.9709750566893405
+    },
+    {
+      "id": "visit-notre-dame",
+      "kind": "hold",
+      "day": 2,
+      "start": 28.76462585034014,
+      "end": 33.71337868480726,
+      "mainStartFrame": 1101,
+      "mainEndFrame": 1249,
+      "seconds": 4.948752834467122
+    },
+    {
+      "id": "notre-dame--cdg",
+      "kind": "tram",
+      "day": 2,
+      "start": 33.71337868480726,
+      "end": 36.696598639455786,
+      "mainStartFrame": 1249,
+      "mainEndFrame": 1339,
+      "seconds": 2.9832199546485256
+    },
+    {
+      "id": "cdg--bcn",
+      "kind": "flight",
+      "day": 4,
+      "start": 36.696598639455786,
+      "end": 44.62857142857143,
+      "mainStartFrame": 1339,
+      "mainEndFrame": 1577,
+      "seconds": 7.9319727891156475
+    },
+    {
+      "id": "bcn--casa",
+      "kind": "tram",
+      "day": 4,
+      "start": 44.62857142857143,
+      "end": 47.591836734693885,
+      "mainStartFrame": 1577,
+      "mainEndFrame": 1666,
+      "seconds": 2.9632653061224516
+    },
+    {
+      "id": "visit-casa",
+      "kind": "hold",
+      "day": 4,
+      "start": 47.591836734693885,
+      "end": 53.52834467120182,
+      "mainStartFrame": 1666,
+      "mainEndFrame": 1844,
+      "seconds": 5.936507936507937
+    },
+    {
+      "id": "casa--mila",
+      "kind": "tram",
+      "day": 4,
+      "start": 53.52834467120182,
+      "end": 56.52154195011339,
+      "mainStartFrame": 1844,
+      "mainEndFrame": 1934,
+      "seconds": 2.993197278911566
+    },
+    {
+      "id": "visit-mila",
+      "kind": "hold",
+      "day": 4,
+      "start": 56.52154195011339,
+      "end": 62.46802721088436,
+      "mainStartFrame": 1934,
+      "mainEndFrame": 2112,
+      "seconds": 5.94648526077097
+    },
+    {
+      "id": "mila--bcn",
+      "kind": "tram",
+      "day": 4,
+      "start": 62.46802721088436,
+      "end": 65.44126984126986,
+      "mainStartFrame": 2112,
+      "mainEndFrame": 2201,
+      "seconds": 2.9732426303854993
+    },
+    {
+      "id": "bcn--fco",
+      "kind": "flight",
+      "day": 6,
+      "start": 65.44126984126986,
+      "end": 73.37324263038549,
+      "mainStartFrame": 2201,
+      "mainEndFrame": 2439,
+      "seconds": 7.931972789115633
+    },
+    {
+      "id": "fco--vatican",
+      "kind": "tram",
+      "day": 6,
+      "start": 73.37324263038549,
+      "end": 77.32426303854876,
+      "mainStartFrame": 2439,
+      "mainEndFrame": 2558,
+      "seconds": 3.9510204081632736
+    },
+    {
+      "id": "visit-vatican",
+      "kind": "hold",
+      "day": 6,
+      "start": 77.32426303854876,
+      "end": 85.25623582766441,
+      "mainStartFrame": 2558,
+      "mainEndFrame": 2796,
+      "seconds": 7.9319727891156475
+    },
+    {
+      "id": "vatican--trevi",
+      "kind": "tram",
+      "day": 7,
+      "start": 85.25623582766441,
+      "end": 90.23492063492064,
+      "mainStartFrame": 2796,
+      "mainEndFrame": 2945,
+      "seconds": 4.978684807256229
+    },
+    {
+      "id": "visit-trevi",
+      "kind": "hold",
+      "day": 7,
+      "start": 90.23492063492064,
+      "end": 99.15464852607711,
+      "mainStartFrame": 2945,
+      "mainEndFrame": 3213,
+      "seconds": 8.91972789115647
+    }
+  ],
+  "musicEvents": [
+    {
+      "event": "埃菲尔铁塔 完整亮相",
+      "time": 27.766893424036287,
+      "frame": 833,
+      "beat": 56,
+      "errorMs": 0
+    },
+    {
+      "event": "巴黎圣母院 完整亮相",
+      "time": 37.66439909297053,
+      "frame": 1130,
+      "beat": 76,
+      "errorMs": 0
+    },
+    {
+      "event": "巴特罗之家 完整亮相",
+      "time": 57.5092970521542,
+      "frame": 1725,
+      "beat": 116,
+      "errorMs": 0
+    },
+    {
+      "event": "米拉之家 完整亮相",
+      "time": 65.44126984126984,
+      "frame": 1963,
+      "beat": 132,
+      "errorMs": 0
+    },
+    {
+      "event": "圣彼得大教堂 完整亮相",
+      "time": 87.25170068027212,
+      "frame": 2618,
+      "beat": 176,
+      "errorMs": 0
+    },
+    {
+      "event": "特莱维喷泉 完整亮相",
+      "time": 99.15464852607711,
+      "frame": 2975,
+      "beat": 200,
+      "errorMs": 0
+    }
+  ],
+  "violations": []
+}

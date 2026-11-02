@@ -1,0 +1,382 @@
+{
+  "sections": [
+    {
+      "section": "full",
+      "frames": 2570,
+      "seconds": 85.66666666666667
+    },
+    {
+      "section": "paris",
+      "frames": 530,
+      "seconds": 17.666666666666668
+    },
+    {
+      "section": "barcelona",
+      "frames": 360,
+      "seconds": 12
+    },
+    {
+      "section": "rome",
+      "frames": 697,
+      "seconds": 23.233333333333334
+    },
+    {
+      "section": "return",
+      "frames": 287,
+      "seconds": 9.566666666666666
+    }
+  ],
+  "steps": [
+    {
+      "id": "pvg--cdg",
+      "kind": "flight",
+      "day": 1,
+      "start": 0,
+      "end": 23.2,
+      "mainStartFrame": 80,
+      "mainEndFrame": 312,
+      "seconds": 23.2
+    },
+    {
+      "id": "cdg--eiffel",
+      "kind": "tram",
+      "day": 1,
+      "start": 23.2,
+      "end": 29.7,
+      "mainStartFrame": 312,
+      "mainEndFrame": 377,
+      "seconds": 6.5
+    },
+    {
+      "id": "visit-eiffel",
+      "kind": "hold",
+      "day": 1,
+      "start": 29.7,
+      "end": 35.2,
+      "mainStartFrame": 377,
+      "mainEndFrame": 432,
+      "seconds": 5.5
+    },
+    {
+      "id": "eiffel--louvre",
+      "kind": "tram",
+      "day": 1,
+      "start": 35.2,
+      "end": 42.2,
+      "mainStartFrame": 432,
+      "mainEndFrame": 502,
+      "seconds": 7
+    },
+    {
+      "id": "visit-louvre",
+      "kind": "hold",
+      "day": 1,
+      "start": 42.2,
+      "end": 47.2,
+      "mainStartFrame": 502,
+      "mainEndFrame": 552,
+      "seconds": 5
+    },
+    {
+      "id": "louvre--notre-dame",
+      "kind": "tram",
+      "day": 2,
+      "start": 47.2,
+      "end": 52.7,
+      "mainStartFrame": 552,
+      "mainEndFrame": 607,
+      "seconds": 5.5
+    },
+    {
+      "id": "visit-notre-dame",
+      "kind": "hold",
+      "day": 2,
+      "start": 52.7,
+      "end": 57.7,
+      "mainStartFrame": 607,
+      "mainEndFrame": 657,
+      "seconds": 5
+    },
+    {
+      "id": "notre-dame--sacre-coeur",
+      "kind": "tram",
+      "day": 2,
+      "start": 57.7,
+      "end": 65.2,
+      "mainStartFrame": 657,
+      "mainEndFrame": 732,
+      "seconds": 7.5
+    },
+    {
+      "id": "visit-sacre-coeur",
+      "kind": "hold",
+      "day": 2,
+      "start": 65.2,
+      "end": 70.7,
+      "mainStartFrame": 732,
+      "mainEndFrame": 787,
+      "seconds": 5.5
+    },
+    {
+      "id": "sacre-coeur--cdg",
+      "kind": "tram",
+      "day": 2,
+      "start": 70.7,
+      "end": 76.2,
+      "mainStartFrame": 787,
+      "mainEndFrame": 842,
+      "seconds": 5.5
+    },
+    {
+      "id": "cdg--bcn",
+      "kind": "flight",
+      "day": 3,
+      "start": 76.2,
+      "end": 89.4,
+      "mainStartFrame": 842,
+      "mainEndFrame": 974,
+      "seconds": 13.2
+    },
+    {
+      "id": "bcn--sagrada",
+      "kind": "tram",
+      "day": 3,
+      "start": 89.4,
+      "end": 94.9,
+      "mainStartFrame": 974,
+      "mainEndFrame": 1029,
+      "seconds": 5.5
+    },
+    {
+      "id": "visit-sagrada",
+      "kind": "hold",
+      "day": 3,
+      "start": 94.9,
+      "end": 100.9,
+      "mainStartFrame": 1029,
+      "mainEndFrame": 1089,
+      "seconds": 6
+    },
+    {
+      "id": "sagrada--casa",
+      "kind": "tram",
+      "day": 4,
+      "start": 100.9,
+      "end": 106.9,
+      "mainStartFrame": 1089,
+      "mainEndFrame": 1149,
+      "seconds": 6
+    },
+    {
+      "id": "visit-casa",
+      "kind": "hold",
+      "day": 4,
+      "start": 106.9,
+      "end": 111.9,
+      "mainStartFrame": 1149,
+      "mainEndFrame": 1199,
+      "seconds": 5
+    },
+    {
+      "id": "casa--mila",
+      "kind": "tram",
+      "day": 4,
+      "start": 111.9,
+      "end": 115.4,
+      "mainStartFrame": 1199,
+      "mainEndFrame": 1234,
+      "seconds": 3.5
+    },
+    {
+      "id": "visit-mila",
+      "kind": "hold",
+      "day": 4,
+      "start": 115.4,
+      "end": 120.4,
+      "mainStartFrame": 1234,
+      "mainEndFrame": 1284,
+      "seconds": 5
+    },
+    {
+      "id": "mila--bcn",
+      "kind": "tram",
+      "day": 4,
+      "start": 120.4,
+      "end": 125.4,
+      "mainStartFrame": 1284,
+      "mainEndFrame": 1334,
+      "seconds": 5
+    },
+    {
+      "id": "bcn--fco",
+      "kind": "flight",
+      "day": 5,
+      "start": 125.4,
+      "end": 138.6,
+      "mainStartFrame": 1334,
+      "mainEndFrame": 1466,
+      "seconds": 13.2
+    },
+    {
+      "id": "fco--colosseum",
+      "kind": "tram",
+      "day": 5,
+      "start": 138.6,
+      "end": 144.6,
+      "mainStartFrame": 1466,
+      "mainEndFrame": 1526,
+      "seconds": 6
+    },
+    {
+      "id": "visit-colosseum",
+      "kind": "hold",
+      "day": 5,
+      "start": 144.6,
+      "end": 150.1,
+      "mainStartFrame": 1526,
+      "mainEndFrame": 1581,
+      "seconds": 5.5
+    },
+    {
+      "id": "colosseum--forum",
+      "kind": "tram",
+      "day": 5,
+      "start": 150.1,
+      "end": 153.6,
+      "mainStartFrame": 1581,
+      "mainEndFrame": 1616,
+      "seconds": 3.5
+    },
+    {
+      "id": "visit-forum",
+      "kind": "hold",
+      "day": 5,
+      "start": 153.6,
+      "end": 158.6,
+      "mainStartFrame": 1616,
+      "mainEndFrame": 1666,
+      "seconds": 5
+    },
+    {
+      "id": "forum--pantheon",
+      "kind": "tram",
+      "day": 5,
+      "start": 158.6,
+      "end": 163.6,
+      "mainStartFrame": 1666,
+      "mainEndFrame": 1716,
+      "seconds": 5
+    },
+    {
+      "id": "visit-pantheon",
+      "kind": "hold",
+      "day": 5,
+      "start": 163.6,
+      "end": 168.6,
+      "mainStartFrame": 1716,
+      "mainEndFrame": 1766,
+      "seconds": 5
+    },
+    {
+      "id": "pantheon--st-peters-square",
+      "kind": "tram",
+      "day": 6,
+      "start": 168.6,
+      "end": 174.6,
+      "mainStartFrame": 1766,
+      "mainEndFrame": 1826,
+      "seconds": 6
+    },
+    {
+      "id": "visit-st-peters-square",
+      "kind": "hold",
+      "day": 6,
+      "start": 174.6,
+      "end": 179.6,
+      "mainStartFrame": 1826,
+      "mainEndFrame": 1876,
+      "seconds": 5
+    },
+    {
+      "id": "st-peters-square--vatican",
+      "kind": "tram",
+      "day": 6,
+      "start": 179.6,
+      "end": 181.79999999999998,
+      "mainStartFrame": 1876,
+      "mainEndFrame": 1898,
+      "seconds": 2.2
+    },
+    {
+      "id": "visit-vatican",
+      "kind": "hold",
+      "day": 6,
+      "start": 181.79999999999998,
+      "end": 187.29999999999998,
+      "mainStartFrame": 1898,
+      "mainEndFrame": 1953,
+      "seconds": 5.5
+    },
+    {
+      "id": "vatican--trevi",
+      "kind": "tram",
+      "day": 7,
+      "start": 187.29999999999998,
+      "end": 193.79999999999998,
+      "mainStartFrame": 1953,
+      "mainEndFrame": 2018,
+      "seconds": 6.5
+    },
+    {
+      "id": "visit-trevi",
+      "kind": "hold",
+      "day": 7,
+      "start": 193.79999999999998,
+      "end": 199.29999999999998,
+      "mainStartFrame": 2018,
+      "mainEndFrame": 2073,
+      "seconds": 5.5
+    },
+    {
+      "id": "trevi--spanish-steps",
+      "kind": "tram",
+      "day": 7,
+      "start": 199.29999999999998,
+      "end": 203.29999999999998,
+      "mainStartFrame": 2073,
+      "mainEndFrame": 2113,
+      "seconds": 4
+    },
+    {
+      "id": "visit-spanish-steps",
+      "kind": "hold",
+      "day": 7,
+      "start": 203.29999999999998,
+      "end": 208.29999999999998,
+      "mainStartFrame": 2113,
+      "mainEndFrame": 2163,
+      "seconds": 5
+    },
+    {
+      "id": "spanish-steps--fco",
+      "kind": "tram",
+      "day": 7,
+      "start": 208.29999999999998,
+      "end": 213.79999999999998,
+      "mainStartFrame": 2163,
+      "mainEndFrame": 2218,
+      "seconds": 5.5
+    },
+    {
+      "id": "fco--pvg",
+      "kind": "flight",
+      "day": 7,
+      "start": 213.79999999999998,
+      "end": 236.99999999999997,
+      "mainStartFrame": 2218,
+      "mainEndFrame": 2450,
+      "seconds": 23.2
+    }
+  ],
+  "sharpTurns": []
+}

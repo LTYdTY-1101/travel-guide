@@ -1,6 +1,8 @@
 import {GeographicFlight} from '../components/GeographicFlight';
 import {FlightTicket} from '../components/FlightTicket';
 import {MessageNotification} from '../components/MessageNotification';
+import {onScreenMessageEntrance} from '../on-screen-messages.element';
+import {MessageBackdrop} from '../components/MessageBackdrop';
 import {FLIGHT_HANDOFF} from '../components/ShanghaiParisCamera';
 import {LandmarkShowcase} from '../components/LandmarkShowcase';
 import {DomesticFirstLeg} from '../components/DomesticFirstLeg';
@@ -33,7 +35,7 @@ const SceneBase: React.FC<{children: React.ReactNode}> = ({children}) => (
   <AbsoluteFill style={{backgroundColor: sceneBackground, overflow: 'hidden'}}>{children}</AbsoluteFill>
 );
 
-export const Scene01Messages: React.FC<{timeOffsetFrames?: number; domesticTicket?: boolean}> = ({timeOffsetFrames = 0, domesticTicket = false}) => {
+export const Scene01Messages: React.FC<{timeOffsetFrames?: number; domesticTicket?: boolean; vectorOpening?: boolean; muteSfx?: boolean}> = ({timeOffsetFrames = 0, domesticTicket = false, vectorOpening = false, muteSfx = false}) => {
   const frame = useCurrentFrame() + timeOffsetFrames;
   const {fps} = useVideoConfig();
   const flipStart = 3.5 * fps;
@@ -46,51 +48,95 @@ export const Scene01Messages: React.FC<{timeOffsetFrames?: number; domesticTicke
   const fillEnd = 7.8 * fps;
   return (
     <SceneBase>
-      <Interactive.Div
-        name="Background · 深灰紫毛玻璃"
+      <MessageBackdrop
+        name="首屏 · 可编辑渐变背景"
+        topColor="#e4e4f0"
+        bottomColor="#c2bfd8"
+        highlightColor="rgba(255,255,255,.67)"
+        purpleColor="rgba(160,153,194,.56)"
+        blueColor="rgba(113,125,187,.32)"
+        glowBlur={70}
         premountFor={fps}
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background:
-            'radial-gradient(circle at 18% 20%,rgba(255,255,255,.67),transparent 36%), radial-gradient(circle at 78% 69%,rgba(160,153,194,.56),transparent 43%), linear-gradient(145deg,#e4e4f0,#c2bfd8)',
-          opacity: 1,
-        }}
       />
-      <Interactive.Div
-        name="Background · 模糊光影"
-        premountFor={fps}
-        style={{
-          position: 'absolute',
-          width: 880,
-          height: 880,
-          left: -220,
-          top: 980,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle,rgba(105,99,166,.46),rgba(153,149,201,.12) 62%,transparent 76%)',
-          filter: 'blur(70px)',
-          translate: interpolate(frame, [0, 4 * fps], ['0px 40px', '180px -30px'], {
-            extrapolateLeft: 'clamp',
-            extrapolateRight: 'clamp',
-            easing: Easing.bezier(0.16, 1, 0.3, 1),
-          }),
-        }}
-      />
-      <Interactive.Div name="Background · 流动蓝紫光" premountFor={fps} style={{position: 'absolute', width: 780, height: 920, left: 570, top: 80, borderRadius: '50%', background: 'radial-gradient(circle,rgba(113,125,187,.32),rgba(183,179,218,.08) 64%,transparent 78%)', filter: 'blur(76px)', translate: interpolate(frame, [0, 4 * fps], ['80px -60px', '-150px 130px'], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.16, 1, .3, 1)})}} />
-      <Interactive.Div name="转场 · 三维悬浮空间" premountFor={fps} style={{position: 'absolute', inset: 0, perspective: 1450, perspectiveOrigin: '50% 48%', transformStyle: 'preserve-3d'}}>
+      <Interactive.Div name="转场 · 三维悬浮空间" premountFor={fps} style={{position: 'absolute', inset: 0, perspective: 1450, perspectiveOrigin: '50% 48%', transformStyle: 'preserve-3d', zIndex: vectorOpening ? 3 : undefined}}>
         <MessageNotification
           name="首屏 · 悬浮消息通知"
-          message="国庆，欧洲？"
-          reply="go"
-          fontSize={50}
+          title="Messages"
+          message="国庆，欧洲走不走？"
+          timeText="现在"
+          fontSize={32}
+          fontWeight={400}
+          fontFamily="PingFang SC, Arial, sans-serif"
+          lineHeight={1.3}
+          letterSpacing={0}
           textColor="#1f2b43"
+          titleFontSize={30}
+          titleFontWeight={700}
+          titleColor="#121216"
+          timeFontSize={18}
+          timeFontWeight={400}
+          timeColor="#9595a3"
+          iconSrc={staticFile('icons/messages-reference.png')}
+          iconSize={112}
+          iconRadius={26}
+          iconOpacity={1}
+          iconZoom={1.142857}
+          iconOffsetX={0}
+          iconOffsetY={0}
+          iconFit="contain"
           bubbleColor={'rgba(241, 242, 249, 0.8)'}
           borderColor={'rgba(255, 255, 255, 0.6)'}
-          borderWidth={5}
+          borderWidth={3}
+          blur={28}
+          paddingX={44}
+          paddingY={30}
+          gap={36}
+          rowGap={12}
+          shadow="0 24px 65px rgba(55,58,92,.18)"
           premountFor={fps}
           durationInFrames={4 * fps}
-          style={{left: 90, top: 685, opacity: interpolate(frame, [flipStart, 3.88 * fps], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), transform: `rotateY(${interpolate(frame, [flipStart, flipSide], [0, 88], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.48, 0, .9, .52)})}deg)`, transformOrigin: 'center center'}}
+          style={{...onScreenMessageEntrance(frame * 30 / fps, 2, 10), left: 90, top: 685, width: 760, height: 182, borderRadius: 44, opacity: interpolate(frame, [2 * fps / 30, 10 * fps / 30, flipStart, 3.88 * fps], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), transform: `rotateY(${interpolate(frame, [flipStart, flipSide], [0, 88], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.48, 0, .9, .52)})}deg)`, transformOrigin: 'center center'}}
         />
+        <MessageNotification
+          name="首屏 · GO 独立回复通知"
+          title="Messages"
+          message="GO"
+          timeText="现在"
+          fontSize={32}
+          fontWeight={400}
+          fontFamily="PingFang SC, Arial, sans-serif"
+          lineHeight={1.3}
+          letterSpacing={0}
+          textColor="#1f2b43"
+          titleFontSize={30}
+          titleFontWeight={700}
+          titleColor="#121216"
+          timeFontSize={18}
+          timeFontWeight={400}
+          timeColor="#9595a3"
+          iconSrc={staticFile('icons/messages-reference.png')}
+          iconSize={112}
+          iconRadius={26}
+          iconOpacity={1}
+          iconZoom={1.142857}
+          iconOffsetX={0}
+          iconOffsetY={0}
+          iconFit="contain"
+          bubbleColor={'rgba(241, 242, 249, 0.8)'}
+          borderColor={'rgba(255, 255, 255, 0.6)'}
+          borderWidth={3}
+          blur={28}
+          paddingX={44}
+          paddingY={30}
+          gap={36}
+          rowGap={12}
+          shadow="0 24px 65px rgba(55,58,92,.18)"
+          premountFor={fps}
+          from={37 * fps / 30}
+          durationInFrames={4 * fps - 37 * fps / 30}
+          style={{...onScreenMessageEntrance((frame - 37 * fps / 30) * 30 / fps, 2, 10), right: 90, top: 915, width: 540, height: 182, borderRadius: 44, opacity: interpolate(frame, [(37 + 2) * fps / 30, (37 + 10) * fps / 30, flipStart, 3.88 * fps], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), transform: `rotateY(${interpolate(frame, [flipStart, flipSide], [0, 88], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.48, 0, .9, .52)})}deg)`, transformOrigin: 'center center'}}
+        />
+        {!vectorOpening && <>
         <Interactive.Div name="地图 · 侧翻展开并后倾" premountFor={fps} style={{position: 'absolute', left: interpolate(frame, [flipSide, mapOpen, pushStart, fillEnd], [90, 105, 105, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), top: interpolate(frame, [flipSide, mapOpen, pushStart, fillEnd], [685, 240, 240, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), width: interpolate(frame, [flipSide, mapOpen, pushStart, fillEnd], [900, 870, 870, 1080], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), height: interpolate(frame, [flipSide, mapOpen, pushStart, fillEnd], [234, 1440, 1440, 1920], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), overflow: 'hidden', borderRadius: interpolate(frame, [pushStart, fillEnd], [44, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), boxShadow: '0 45px 110px rgba(56,62,104,.27)', opacity: interpolate(frame, [3.75 * fps, 3.95 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), transform: `rotateY(${interpolate(frame, [flipSide, mapOpen], [-88, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.16, 1, .3, 1)})}deg) rotateX(${interpolate(frame, [mapOpen, mapTilt], [0, 25], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.16, 1, .3, 1)})}deg)`, transformOrigin: 'center bottom', scale: interpolate(frame, [ticketSettle, pushStart, fillEnd], [1, 1.08, 1.5], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', output: 'perceptual-scale'})}}>
           <Interactive.Div name="地图 · 机场推进" premountFor={fps} style={{position: 'absolute', inset: 0, scale: interpolate(frame, [mapTilt, pushStart, fillEnd], [1, 1, 1.05], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.24, 0, .24, 1)})}}>
             <MapLayer name="地图 · 浦东机场真实近景" premountFor={fps} src={staticFile('maps/pvg-runway-card.jpg')} label="上海 · 浦东机场" tint="#d6e0dc" />
@@ -99,13 +145,16 @@ export const Scene01Messages: React.FC<{timeOffsetFrames?: number; domesticTicke
         </Interactive.Div>
         <Interactive.Div name="地图 · 机票交接飞机投影" premountFor={fps} style={{position: 'absolute', left: FLIGHT_HANDOFF.planeX - 100, top: interpolate(frame, [5.3 * fps, pushStart, fillEnd], [660, 730, FLIGHT_HANDOFF.planeY - 100], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), width: 200, height: 200, filter: 'brightness(0) blur(4px)', opacity: interpolate(frame, [5.3 * fps, 5.7 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), translate: '0px 10px'}}><Img src={staticFile('plane-c4d.png')} style={{width: '100%', height: '100%', objectFit: 'contain'}} /></Interactive.Div>
         <Plane name="地图 · 与起飞镜头共享位置的飞机" color="#ffffff" size={200} premountFor={fps} style={{left: FLIGHT_HANDOFF.planeX - 100, top: interpolate(frame, [5.3 * fps, pushStart, fillEnd], [660, 730, FLIGHT_HANDOFF.planeY - 100], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.35, 0, .25, 1)}), opacity: interpolate(frame, [mapTilt, 5.35 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), rotate: '0deg'}} />
+        </>}
         <FlightTicket domestic={domesticTicket} style={{left: 109, top: frame <= pushStart ? interpolate(frame, [ticketIn, ticketSettle, pushStart], [1900, 1050, 1090], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.16, 1, .3, 1)}) : interpolate(frame, [pushStart, fillEnd], [1090, 2350], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.65, 0, 1, .45)}), opacity: interpolate(frame, [ticketIn, 5.2 * fps, 7.45 * fps, fillEnd], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), scale: interpolate(frame, [ticketSettle, pushStart, fillEnd], [.8, .864, 1.7], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', output: 'perceptual-scale'}), transform: 'rotateX(14deg)', transformOrigin: 'center bottom', filter: `blur(${interpolate(frame, [ticketIn, ticketSettle, pushStart, fillEnd], [17, 0, 0, 28], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.6, 0, 1, .6)})}px)`}} />
       </Interactive.Div>
       {domesticTicket && <Interactive.Div name="交接 · 同一张浦东机场地图" premountFor={fps} style={{position: 'absolute', inset: 0, opacity: interpolate(frame, [7.68 * fps, 7.90 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}}><DomesticFirstLeg frozen /></Interactive.Div>}
+      {!muteSfx && <>
       <Audio name="SFX · 消息提示" from={36} src={staticFile('audio/message.wav')} volume={0.7} premountFor={fps} />
       <Audio name="SFX · 通知翻面" from={Math.round(flipStart)} src={staticFile('audio/whoosh.wav')} volume={0.36} premountFor={fps} />
       <Audio name="SFX · 机票上推" from={Math.round(ticketIn)} src={staticFile('audio/whoosh.wav')} volume={0.28} premountFor={fps} />
       <Audio name="SFX · 推入地图" from={Math.round(pushStart)} src={staticFile('audio/whoosh.wav')} volume={0.25} premountFor={fps} />
+      </>}
     </SceneBase>
   );
 };

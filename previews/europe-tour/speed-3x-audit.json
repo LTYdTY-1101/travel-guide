@@ -1,0 +1,47 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "id": "Europe7DayInteractive",
+      "speed": 3,
+      "seekOutputFrame": 15,
+      "sourceFrame": 45,
+      "playedThroughSourceFrame": 138
+    },
+    {
+      "id": "ParisTour",
+      "speed": 3,
+      "seekOutputFrame": 15,
+      "sourceFrame": 45,
+      "playedThroughSourceFrame": 63
+    },
+    {
+      "id": "BarcelonaTour",
+      "speed": 3,
+      "seekOutputFrame": 15,
+      "sourceFrame": 45,
+      "playedThroughSourceFrame": 66
+    },
+    {
+      "id": "RomeVaticanTour",
+      "speed": 3,
+      "seekOutputFrame": 15,
+      "sourceFrame": 45,
+      "playedThroughSourceFrame": 90
+    },
+    {
+      "id": "ReturnToShanghai",
+      "speed": 3,
+      "seekOutputFrame": 15,
+      "sourceFrame": 45,
+      "playedThroughSourceFrame": 78
+    },
+    {
+      "id": "Scene01-Messages",
+      "speed": 3,
+      "seekOutputFrame": 15,
+      "sourceFrame": 45,
+      "playedThroughSourceFrame": 63
+    }
+  ]
+}

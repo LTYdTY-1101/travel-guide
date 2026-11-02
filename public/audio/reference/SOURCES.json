@@ -1,0 +1,12 @@
+{
+  "source": "User-provided /Users/liutongyu/Downloads/ScreenRecording_10-27-2026 11-31-01_1.MP4",
+  "usedSourceSeconds": [
+    13.725351473922903,
+    21.65732426303855
+  ],
+  "treatment": "MDX-Net instrumental separation, original speed and pitch, complete 16-beat phrase repeated 14 times, edge taper 8 ms",
+  "model": "UVR-MDX-NET-Inst_HQ_3",
+  "modelMetadataSource": "https://github.com/TRvlvr/application_data/blob/main/mdx_model_data/model_data.json",
+  "measuredBPM": 121.02915951972554,
+  "noReplacementMusic": true
+}

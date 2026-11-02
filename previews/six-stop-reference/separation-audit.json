@@ -1,0 +1,17 @@
+{
+  "model": "UVR-MDX-NET-Inst_HQ_3",
+  "modelHash": "55657dd70583b0fedfba5f67df11d711",
+  "nfft": 6144,
+  "dimf": 3072,
+  "dimt": 256,
+  "sampleRate": 44100,
+  "processedSourceSeconds": [
+    12,
+    23
+  ],
+  "inputRMS": 0.28799644112586975,
+  "instrumentalRMS": 0.2671501089098562,
+  "residualRMS": 0.09701015055179596,
+  "speed": 1,
+  "pitchShift": 0
+}

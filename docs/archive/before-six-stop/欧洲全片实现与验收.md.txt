@@ -1,0 +1,98 @@
+# 欧洲七日全片：实现与验收
+
+2026-11-02。当前主片 `Europe7DayInteractive`，1080×1920 / 30fps，默认整体 3 倍速，2570 帧，即 **1:25.7**；`playbackSpeed=1` 时为原速 7710 帧 / 4:17。保留已编辑的两张消息通知、GO 回复、机票、开场翻面；8 秒后沿用已认可的真实地图飞行实现，最后返回浦东机场，再进入 12 秒回顾终章。
+
+## 预览入口
+
+| Composition | Studio | 时长 | 范围 |
+| --- | --- | --- | --- |
+| Europe7DayInteractive | http://localhost:3000/Europe7DayInteractive | 1:25.7 | 完整开场、四段飞行、全部景点、机场交接、回程、终章 |
+| ParisTour | http://localhost:3000/ParisTour | 0:17.7 | 戴高乐机场 → D1/D2 四景点 → 戴高乐机场 |
+| BarcelonaTour | http://localhost:3000/BarcelonaTour | 0:12 | 巴塞罗那机场 → D3/D4 三景点 → 巴塞罗那机场 |
+| RomeVaticanTour | http://localhost:3000/RomeVaticanTour | 0:23.2 | 菲乌米奇诺机场 → D5/D6/D7 七景点 |
+| ReturnToShanghai | http://localhost:3000/ReturnToShanghai | 0:09.6 | 西班牙台阶 → 菲乌米奇诺机场 → 浦东机场 |
+
+2026-11-02 追加：主片、四个城市分段及开场预览统一设为 3 倍速。通过 Remotion `Sequence playbackRate` 整体加速原时间线，地图、交通、建筑、标签、音效同步；原行程参数保持原速秒数，输出时长自动除以 `playbackSpeed`。保留的历史独立飞行验证镜头仍维持原参数。
+
+四个分段都使用 `EuropeTravelVideo` / `EuropeTourScene`，裁取同一行程模型，不是另做的效果示例。城际飞行全部位于完整主片。原来的 `ShanghaiParisVectorFlight` 放在“保留的验证镜头”目录。
+
+## 全部真实锚点
+
+坐标顺序为经度、纬度，建筑使用场地内的展示锚点；这是地图景观示意，不声称厘米级测绘精度。建筑、定位点、车辆与路线均由同一 MapLibre 相机投影。七日顺序保持不变。
+
+| 日期 | 地点与顺序 | 经度 | 纬度 | 素材 |
+| --- | --- | --- | --- | --- |
+| D1 | 埃菲尔铁塔 | 2.294500 | 48.858400 | 复用 eiffel.png |
+| D1 | 卢浮宫 | 2.335800 | 48.861100 | 复用 louvre.png |
+| D2 | 巴黎圣母院 | 2.350000 | 48.853060 | 复用 notre-dame.png |
+| D2 | 圣心堂 | 2.343056 | 48.886694 | 新增 sacre-coeur.png |
+| D3 | 圣家堂 | 2.174444 | 41.403611 | 复用 sagrada.png |
+| D4 | 巴特罗之家 | 2.164994 | 41.391705 | 复用 casa.png |
+| D4 | 米拉之家 | 2.161944 | 41.395278 | 新增 mila.png |
+| D5 | 罗马斗兽场 | 12.492200 | 41.890200 | 复用 colosseum.png |
+| D5 | 古罗马广场 | 12.485200 | 41.892200 | 新增 forum.png |
+| D5 | 万神殿 | 12.476900 | 41.898600 | 复用 pantheon.png |
+| D6 | 圣彼得广场 | 12.457200 | 41.902200 | 新增 st-peters-square.png |
+| D6 | 圣彼得大教堂 | 12.453900 | 41.902200 | 复用 vatican.png |
+| D7 | 特莱维喷泉 | 12.483060 | 41.900830 | 新增 trevi.png |
+| D7 | 西班牙台阶 | 12.482800 | 41.906100 | 新增 spanish-steps.png |
+
+建筑位于 `public/landmarks/dioramas/`。6 个补齐素材为透明背景的建筑景观插画，与已有 C4D 景观一起使用；圣彼得广场突出柱廊与方尖碑，大教堂突出教堂本体，两站分别展示。它们是 PNG 景观，不是可旋转的三维模型。新增 `public/tram-c4d.png` 为奶油白 / 深绿小型有轨电车。
+
+地点核对参考：[埃菲尔铁塔](https://en.wikipedia.org/wiki/Eiffel_Tower)、[卢浮宫](https://en.wikipedia.org/wiki/Louvre)、[巴黎圣母院](https://en.wikipedia.org/wiki/Notre-Dame_de_Paris)、[圣心堂](https://en.wikipedia.org/wiki/Sacr%C3%A9-C%C5%93ur,_Paris)、[圣家堂](https://en.wikipedia.org/wiki/Sagrada_Fam%C3%ADlia)、[巴塞罗那城市资料：巴特罗之家](https://www.bcnsostenible.cat/web/punt/casa-batllo)、[米拉之家](https://en.wikipedia.org/wiki/Casa_Mil%C3%A0)、[斗兽场](https://en.wikipedia.org/wiki/Colosseum)、[古罗马广场](https://en.wikipedia.org/wiki/Roman_Forum)、[万神殿](https://en.wikipedia.org/wiki/Pantheon,_Rome)、[圣彼得广场](https://en.wikipedia.org/wiki/Saint_Peter%27s_Square)、[圣彼得大教堂](https://en.wikipedia.org/wiki/St._Peter%27s_Basilica)、[特莱维喷泉](https://en.wikipedia.org/wiki/Trevi_Fountain)、[西班牙台阶](https://en.wikipedia.org/wiki/Spanish_Steps)。
+
+四个机场锚点：PVG `[121.8183,31.1303]`，CDG `[2.555,49.0097]`，BCN `[2.0786,41.2974]`，FCO `[12.2389,41.8003]`。4 段飞行分别是 PVG→CDG、CDG→BCN、BCN→FCO、FCO→PVG，使用 Turf 大圆航线。机场建筑区域起降后淡出车辆与航迹，再交给地面路线；客机不会抵达景点建筑。
+
+## 地面路线与衔接
+
+17 段：CDG→铁塔、铁塔→卢浮宫、卢浮宫→圣母院、圣母院→圣心堂、圣心堂→CDG；BCN→圣家堂、圣家堂→巴特罗之家、巴特罗之家→米拉之家、米拉之家→BCN；FCO→斗兽场、斗兽场→古罗马广场、古罗马广场→万神殿、万神殿→圣彼得广场、广场→大教堂、大教堂→特莱维喷泉、喷泉→西班牙台阶、台阶→FCO。
+
+几何来自 `routing.openstreetmap.de/routed-foot` 的 OSM 道路 / 步行走廊，原始响应、来源 URL、路由长度和道路吸附点保存在 `public/journey/routes/`，汇总文件是 `public/journey/ground-routes.json`。这是适合地图展示的交通示意，**不代表实际电车轨道、线路、运营方式或导航建议**。画面写“有轨电车 · 前往××”及“市内移动示意”，未编造线路、票价、班次，也未显示距离数字。
+
+路线适度简化并圆滑转角；圆滑后的路线抽样与原始道路走廊偏差限制为 15 米，超出时回退原始几何。原始路线、圆滑几何与速度进度表一并缓存；动画本身无需实时请求道路服务。机场接驳是压缩的地理移动示意，最长道路段为几十公里，不表示实际耗时。
+
+地面已行驶路线为暖橙色实线，前方为浅色虚线。近邻短移，远段拉远再推近，时长不相同。电车朝向依据地理切线，并对整段预计算的连续角度做有限卷积，任意帧直接读取；车辆不会依赖上一播放帧追赶目标。景点先压暗底图，从锚点翻起景观，再落位名称；退场时缩成小景观，留在下一段道路后方逐渐退出。广场→大教堂仅 2.2 秒。
+
+## 地图与可编辑参数
+
+`src/journey/use-tour-map.ts` 复用独立飞行预览验证过的本地 worker、OpenFreeMap 资源协议、重试和 Remotion 加载等待。整段行程使用同一个 MapLibre 实例，按帧 `jumpTo`；相邻镜头相机中心、缩放与方向边界一致。不切换卫星图或国内映射图。使用原有米白陆地、浅蓝水系、低对比道路样式，并保留来源署名。
+
+Composition → Default Props 支持：
+
+- `playbackSpeed`：整体速度，默认 3；改为 1 恢复原速。
+
+- `legs[].seconds`：逐段交通秒数；`legs[].cruiseZoom`：飞行巡航 zoom。
+- `stops[].holdSeconds / zoom`：逐景点停留与近景缩放，机场 zoom 同时控制起降近景。
+- `planeSize / tramSize / tramArtBearing`：飞机、电车尺寸及素材车头校准。
+- `flightColor / groundColor / routeWidth`：路线颜色与像素宽度。
+- `cameraPitch / anchorY / showLabels`：地图俯仰、车辆画面高度与地图地名开关。
+- `stops[].name / city / day / date`：名称、城市、日期与日程标签。
+- `stops[].image / size / revealDelay / offsetX / offsetY`：景观图片、尺寸、登场延迟和相对锚点偏移。
+- `musicVolume`：背景音乐；音乐循环至新片尾并淡出，景点音效按新时间线排布。
+
+`calculateMetadata` 随交通 / 停留时长自动更新 Composition 总帧数，日期标签与终章从同一行程表读取。`src/Root.tsx` 中保留内联可写回的默认参数，已检查 Studio 没有“Can't save default props”警告。每个 Composition 的 Default Props 独立保存，修改主片后需要复制相同参数至城市分段并保留各自的 `section`，才能保持同样的自定义数值。原消息卡与机票可继续选中既有命名图层编辑。
+
+建筑展示偏移可直接编辑；如果新增 / 大幅移动地点、改变地面交通起终点，需要更新道路缓存，不能期待修改坐标自动生成新道路。刷新道路依次运行 `node scripts/fetch-europe-ground-routes.mjs`、`node scripts/prepare-europe-route-motion.mjs`，并核对结果；两者以 `public/journey/europe-locations.json` 为基础。
+
+## 实际验证
+
+- `npm run lint`：ESLint 与 TypeScript 通过。
+- `npm run check:tour`：14 景点顺序、4 飞行、17 地面段、回程终点、素材存在、全程数值有效；34 处相邻相机边界连续，逐帧电车方向检查未发现超过 30° 的单帧跳转。
+- 完整主片逐段抽查：每一交通段的 2% / 50% / 98%，每一景点停留中点，以及开场、终章。记录见 `previews/europe-tour/browser-audit.json`，无页面异常。
+- 主片与四个分段均通过浏览器实际播放检查，记录见 `previews/europe-tour/playback-audit.json`。城市与主片共享相同实现。
+- 三倍速追加检查记录为 `previews/europe-tour/speed-3x-audit.json`：同一输出帧 15 对应原时间线帧 45，六个入口实际播放，并检查主片最后一帧仍有完整终章。
+- 提速前实际导出以下三个 1080×1920 / 30fps H.264 短段，逐帧解码并查看联系表；抽查未见空白瓦片、明显道路闪烁、车辆与线路脱节、机头突转或缩放跳变。此结论覆盖提速前所导出短段，不等同于已逐帧审片全部主片。
+
+| 文件 | 原速主片帧范围 | 内容 | 导出结果 |
+| --- | --- | --- | --- |
+| `out/europe-tests/flight.mp4` | 2640–2759 | 巴黎→巴塞罗那巡航及缩放 | 4 秒 / 120 帧 |
+| `out/europe-tests/tram-turn.mp4` | 3597–3701 | 巴特罗之家→米拉之家道路转弯 | 3.5 秒 / 105 帧 |
+| `out/europe-tests/landmark-rise.mp4` | 3690–3779 | 电车到站→米拉之家翻起 | 3 秒 / 90 帧 |
+
+渲染联系表与帧数核对见 `previews/europe-tour/*-render-contact.jpg`、`render-audit.json`。未默认导出完整成片。
+
+## 当前限制与完成情况
+
+14 景点与全部交通衔接、返程均已进入完整主片，**没有缺失素材、文字占位景点或未完成地点**。补齐景观为风格化插画，建筑细节不是测绘模型。地图仍依赖 OpenFreeMap 在线瓦片 / 字体，首次打开与导出需要等待网络加载；请求失败会重试并明确中止，不能离线直接导出。现有静态地图文件仅保留历史用途，完整主片不引用。道路示意与大圆飞行均不声称现实运营路线。
+
+主要实现文件：`src/EuropeTravelVideo.tsx`、`src/Root.tsx`、`src/journey/{EuropeTourScene,tour-data,tour-schema,use-tour-map}.tsx/ts`；原飞行曲线继续位于 `src/flight/flight-path.ts`。本轮之前的入口源码与 README 已备份在 `docs/archive/`。

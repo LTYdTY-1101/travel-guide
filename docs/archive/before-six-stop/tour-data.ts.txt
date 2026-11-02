@@ -1,0 +1,88 @@
+import places from '../../public/journey/europe-locations.json';
+import streets from '../../public/journey/ground-routes.json';
+import * as turf from '@turf/turf';
+import type {Feature,LineString} from 'geojson';
+import {at,clamp,flightState,makeRoute,slice,smooth,type Coordinate,type Route} from '../flight/flight-path';
+
+export type Stop={id:string;name:string;city:string;day:number;date:string;longitude:number;latitude:number;image:string;airport:boolean;zoom:number;holdSeconds:number;size:number;revealDelay:number;offsetX:number;offsetY:number};
+export type Leg={id:string;kind:'flight'|'tram';from:string;to:string;seconds:number;day:number;cruiseZoom:number};
+export type TourProps={section:'full'|'paris'|'barcelona'|'rome'|'return';playbackSpeed:number;planeSize:number;tramSize:number;tramArtBearing:number;flightColor:string;groundColor:string;routeWidth:number;cameraPitch:number;anchorY:number;showLabels:boolean;musicVolume:number;stops:Stop[];legs:Leg[]};
+const leg=(kind:Leg['kind'],from:string,to:string,seconds:number,day:number,cruiseZoom=5.5):Leg=>({id:from+'--'+to,kind,from,to,seconds,day,cruiseZoom});
+export const DEFAULT_TOUR:TourProps={section:'full',playbackSpeed:3,planeSize:170,tramSize:126,tramArtBearing:225,flightColor:'#378bb5',groundColor:'#d58a4e',routeWidth:8,cameraPitch:18,anchorY:.57,showLabels:true,musicVolume:.14,
+ stops:places.map(p=>({id:p.id,name:p.name,city:p.city,day:p.day,date:`10/${String(p.day).padStart(2,'0')}`,longitude:p.coord[0],latitude:p.coord[1],image:p.image??'',airport:p.airport??false,zoom:p.zoom,holdSeconds:p.hold??0,size:p.size??700,revealDelay:.3,offsetX:0,offsetY:0})),
+ legs:[
+  leg('flight','pvg','cdg',23.2,1,3.4),leg('tram','cdg','eiffel',6.5,1),leg('tram','eiffel','louvre',7,1),leg('tram','louvre','notre-dame',5.5,2),leg('tram','notre-dame','sacre-coeur',7.5,2),leg('tram','sacre-coeur','cdg',5.5,2),
+  leg('flight','cdg','bcn',13.2,3,6),leg('tram','bcn','sagrada',5.5,3),leg('tram','sagrada','casa',6,4),leg('tram','casa','mila',3.5,4),leg('tram','mila','bcn',5,4),
+  leg('flight','bcn','fco',13.2,5,6),leg('tram','fco','colosseum',6,5),leg('tram','colosseum','forum',3.5,5),leg('tram','forum','pantheon',5,5),leg('tram','pantheon','st-peters-square',6,6),leg('tram','st-peters-square','vatican',2.2,6),leg('tram','vatican','trevi',6.5,7),leg('tram','trevi','spanish-steps',4,7),leg('tram','spanish-steps','fco',5.5,7),leg('flight','fco','pvg',23.2,7,3.4)
+ ]};
+type RoadRecord={motion:{geometry:LineString;km:number;profile:number[]};snappedStops:number[][];source:string};
+const roadRecords=streets as unknown as Record<string,RoadRecord>;
+export type Step={id:string;kind:'flight'|'tram'|'hold';from:Stop;to:Stop;day:number;start:number;end:number;seconds:number;route?:Route;leg?:Leg;profile?:number[];rotationTrack?:number[];startBearing:number;endBearing:number};
+export const coord=(s:Stop):Coordinate=>[s.longitude,s.latitude];
+export const shortAngle=(from:number,to:number)=>from+((to-from+540)%360)-180;
+const signed=(a:number)=>a>180?a-360:a;
+export const buildTour=(props:Pick<TourProps,'stops'|'legs'|'section'>)=>{
+ const byId=new Map(props.stops.map(s=>[s.id,s]));const steps:Step[]=[];let time=0;
+ for(const leg of props.legs){
+  const from=byId.get(leg.from),to=byId.get(leg.to);if(!from||!to)throw new Error(`Missing stop ${leg.id}`);
+  let route:Route,profile:number[]|undefined;
+  if(leg.kind==='flight')route=makeRoute(coord(from),coord(to));
+  else{const road=roadRecords[leg.id];if(!road)throw new Error(`Missing road geometry ${leg.id}`);const line=turf.lineString(road.motion.geometry.coordinates);route={line,km:turf.length(line)};profile=road.motion.profile;}
+  const step:Step={id:leg.id,kind:leg.kind,from,to,day:leg.day,start:time,end:time+leg.seconds,seconds:leg.seconds,route,profile,leg,startBearing:0,endBearing:0};
+  if(leg.kind==='tram'){
+   const count=Math.ceil(leg.seconds*30),angles:number[]=[];
+   for(let f=0;f<=count;f++){
+    const km=roadProgress(clamp((f/30-.35)/(leg.seconds-.7)),profile!)*route.km;
+    const angle=turf.bearing(at(route,km-.012),at(route,km+.012));
+    angles.push(f===0?angle:shortAngle(angles[f-1],angle));
+   }
+   // Deterministic finite convolution, not a previous-render-frame spring.
+   step.rotationTrack=angles.map((_,i)=>{let sum=0,weight=0;for(let j=-18;j<=18;j++){const w=Math.exp(-j*j/72);sum+=angles[Math.max(0,Math.min(count,i+j))]*w;weight+=w;}return sum/weight;});
+  }
+  steps.push(step);time=step.end;
+  if(!to.airport){steps.push({id:'visit-'+to.id,kind:'hold',from:to,to,day:to.day,start:time,end:time+to.holdSeconds,seconds:to.holdSeconds,startBearing:0,endBearing:0});time+=to.holdSeconds;}
+ }
+ for(let i=0;i<steps.length;i++){
+  const s=steps[i];if(s.kind==='flight'&&s.route){s.startBearing=signed(flightState(0,s.seconds-1.2,s.route,s.from.zoom,s.leg!.cruiseZoom,s.to.zoom).heading);s.endBearing=signed(flightState(s.seconds,s.seconds-1.2,s.route,s.from.zoom,s.leg!.cruiseZoom,s.to.zoom).heading);}
+ }
+ for(let i=0;i<steps.length;i++){const s=steps[i];if(s.kind==='tram'){s.startBearing=steps[i-1]?.endBearing??0;s.endBearing=steps[i+1]?.kind==='flight'?steps[i+1].startBearing:0;}}
+ const startIndex=props.section==='paris'?steps.findIndex(s=>s.id==='cdg--eiffel'):props.section==='barcelona'?steps.findIndex(s=>s.id==='bcn--sagrada'):props.section==='rome'?steps.findIndex(s=>s.id==='fco--colosseum'):props.section==='return'?steps.findIndex(s=>s.id==='spanish-steps--fco'):0;
+ const endIndex=props.section==='paris'?steps.findIndex(s=>s.id==='sacre-coeur--cdg')+1:props.section==='barcelona'?steps.findIndex(s=>s.id==='mila--bcn')+1:props.section==='rome'?steps.findIndex(s=>s.id==='visit-spanish-steps')+1:steps.length;
+ const selected=steps.slice(startIndex,endIndex);const offset=selected[0]?.start??0;
+ return {steps:selected.map(s=>({...s,start:s.start-offset,end:s.end-offset})),seconds:(selected.at(-1)?.end??0)-offset};
+};
+export const roadProgress=(t:number,profile:number[])=>{
+ const p=smooth(t);let a=0,b=profile.length-1;while(b-a>1){const m=(a+b)>>1;if(profile[m]<p)a=m;else b=m;}
+ return (a+(p-profile[a])/Math.max(1e-9,profile[b]-profile[a]))/(profile.length-1);
+};
+const geoBlend=(a:Coordinate,b:Coordinate,t:number):Coordinate=>{
+ if(t<=0)return a;if(t>=1)return b;const line=turf.lineString([a,b]);return turf.along(line,turf.length(line)*t).geometry.coordinates as Coordinate;
+};
+export const evaluateStep=(step:Step,seconds:number)=>{
+ const t=clamp((seconds-step.start)/step.seconds);const local=seconds-step.start;
+ let target=coord(step.to),zoom=step.to.zoom,bearing=0,position=target,altitude=0,progress=0,opacity=0,dim=0,reveal=0,backdropScale=0;
+ let line:Feature<LineString>=turf.lineString([target,target]);let ahead:Feature<LineString>=line;
+ let tangentBefore=target,tangentAfter=target;
+ if(step.kind==='flight'&&step.route){
+  const state=flightState(local,step.seconds-1.2,step.route,step.from.zoom,step.leg!.cruiseZoom,step.to.zoom);
+  target=position=state.position;zoom=state.zoom;bearing=signed(state.heading)-12*Math.sin(Math.PI*state.u)**2;altitude=state.altitude;progress=state.progress;
+  opacity=1-smooth((local-(step.seconds-1.2))/.8);line=slice(step.route,state.km);tangentBefore=at(step.route,state.km-.05);tangentAfter=at(step.route,state.km+.05);
+ }else if(step.kind==='tram'&&step.route){
+  progress=roadProgress(clamp((local-.35)/(step.seconds-.7)),step.profile!);const km=progress*step.route.km;
+  position=at(step.route,km);target=geoBlend(coord(step.from),position,smooth(t/.2));target=geoBlend(target,coord(step.to),smooth((t-.8)/.2));
+  const pull=Math.min(4.5,Math.max(.45,Math.log2(1+step.route.km)*.85));
+  zoom=step.from.zoom+(step.to.zoom-step.from.zoom)*smooth(t)-pull*Math.sin(Math.PI*t)**2;
+  bearing=step.startBearing+(shortAngle(step.startBearing,step.endBearing)-step.startBearing)*smooth(t);
+  opacity=smooth(local/.35)*(1-smooth((local-step.seconds+.35)/.35));
+  line=slice(step.route,km);ahead=turf.lineSliceAlong(step.route.line,Math.min(km,step.route.km-.000001),step.route.km);
+  const index=t*(step.rotationTrack!.length-1),i=Math.floor(index),j=Math.min(step.rotationTrack!.length-1,i+1);
+  const heading=step.rotationTrack![i]+(step.rotationTrack![j]-step.rotationTrack![i])*(index-i);
+  tangentBefore=position;tangentAfter=turf.destination(position,.02,heading).geometry.coordinates as Coordinate;
+  backdropScale=(1-smooth(t/.5))*.25;
+ }else{
+  reveal=smooth((local-step.to.revealDelay)/.8);dim=reveal*.23*(1-smooth((local-step.seconds+.65)/.65));
+ }
+ return {step,t,local,target,zoom,bearing,position,altitude,progress,opacity,line,ahead,tangentBefore,tangentAfter,dim,reveal,backdropScale};
+};
+export type TourState=ReturnType<typeof evaluateStep>;
+export const totalFrames=(p:TourProps)=>Math.ceil(Math.round((buildTour(p).seconds+(p.section==='full'?20:0))*30)/p.playbackSpeed);

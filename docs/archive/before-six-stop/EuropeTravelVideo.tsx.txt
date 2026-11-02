@@ -1,0 +1,16 @@
+import {AbsoluteFill,Sequence,useVideoConfig} from 'remotion';
+import {Scene01Messages} from './scenes/Scenes';
+import {EuropeTourScene} from './journey/EuropeTourScene';
+import type {TourProps} from './journey/tour-data';
+
+export const EuropeTravelVideo:React.FC<TourProps>=(props)=>{
+ const {fps}=useVideoConfig();
+ return <AbsoluteFill style={{backgroundColor:'#f4f0e7'}}>
+  <Sequence name="完整行程 · 整体速度" playbackRate={props.playbackSpeed}>
+  {props.section==='full'&&<Sequence name="开场 · 原消息、GO 回复与机票" durationInFrames={8*fps} premountFor={fps}>
+   <Scene01Messages vectorOpening />
+  </Sequence>}
+  <EuropeTourScene {...props}/>
+  </Sequence>
+ </AbsoluteFill>;
+};

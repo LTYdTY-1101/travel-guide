@@ -1,0 +1,22 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const root=process.cwd();
+const locations=JSON.parse(await fs.readFile(path.join(root,'public/journey/europe-locations.json'),'utf8'));
+const pairs=[['cdg','eiffel'],['eiffel','louvre'],['louvre','notre-dame'],['notre-dame','sacre-coeur'],['sacre-coeur','cdg'],['bcn','sagrada'],['sagrada','casa'],['casa','mila'],['mila','bcn'],['fco','colosseum'],['colosseum','forum'],['forum','pantheon'],['pantheon','st-peters-square'],['st-peters-square','vatican'],['vatican','trevi'],['trevi','spanish-steps'],['spanish-steps','fco']];
+const folder=path.join(root,'public/journey/routes');await fs.mkdir(folder,{recursive:true});
+const records={};
+for(const [from,to]of pairs){
+ const id=from+'--'+to;const file=path.join(folder,id+'.json');
+ let data;
+ try{data=JSON.parse(await fs.readFile(file,'utf8'));}catch{
+  const a=locations.find(l=>l.id===from),b=locations.find(l=>l.id===to);
+  const url=`https://routing.openstreetmap.de/routed-foot/route/v1/foot/${a.coord.join(',')};${b.coord.join(',')}?overview=full&geometries=geojson&steps=false`;
+  for(let n=0;n<4;n++){
+   try{const response=await fetch(url,{signal:AbortSignal.timeout(45000)});if(!response.ok)throw new Error('HTTP '+response.status);const r=await response.json();if(r.code!=='Ok'||!r.routes?.[0])throw new Error(JSON.stringify(r));data={id,from,to,source:url,fetchedAt:'2026-11-02',profile:'OSM pedestrian road corridor, illustrative tram only',distanceMeters:r.routes[0].distance,geometry:r.routes[0].geometry,snappedStops:r.waypoints.map(w=>w.location)};break;}catch(e){if(n===3)throw e;}
+  }
+  await fs.writeFile(file,JSON.stringify(data));
+ }
+ records[id]=data;console.log(id,Math.round(data.distanceMeters)+' m',data.geometry.coordinates.length+' pts');
+}
+await fs.writeFile(path.join(root,'public/journey/ground-routes.json'),JSON.stringify(records));
+console.log('Saved',pairs.length,'real-road ground corridors. No invented service numbers or fares.');
