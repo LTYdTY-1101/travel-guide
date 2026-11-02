@@ -8,9 +8,9 @@ import {smooth} from '../flight/flight-path';
 export const TourSoundtrack:React.FC<TourProps>=(props)=>{
  const frame=useCurrentFrame(),{fps,durationInFrames}=useVideoConfig();
  const {stops,legs,section}=props,tour=useMemo(()=>buildTour({stops,legs,section}),[stops,legs,section]);
- const trim=props.section==='full'?0:OPENING_SECONDS+tour.offset;
+ const trim=props.section==='full'||props.section==='paris-stage'?0:OPENING_SECONDS+tour.offset;
  const fade=smooth(frame/(fps*.03))*(1-smooth((frame-durationInFrames+fps*1.1)/(fps*1.1)));
- const intro=props.section==='full';
+ const intro=props.section==='full'||props.section==='paris-stage';
  return <>
   <Audio name="配乐 · 参考视频原速乐句" src={staticFile('audio/reference/europe-reference-score.wav')} trimBefore={Math.round(trim*fps)} playbackRate={1} loop volume={props.musicVolume*fade} premountFor={fps}/>
   {intro&&<>
