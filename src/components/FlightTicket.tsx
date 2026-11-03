@@ -1,11 +1,12 @@
 import type React from 'react';
 import {Interactive} from 'remotion';
+import {ticketOpeningStyle,type OpeningState} from '../opening/opening-state';
 
-type Props = {readonly style?: React.CSSProperties; readonly domestic?: boolean};
+type Props = {readonly style?: React.CSSProperties; readonly domestic?: boolean;readonly opening?:OpeningState;readonly mapReady?:boolean};
 
 /** The card and every information block remain separate selectable Studio layers. */
-export const FlightTicket: React.FC<Props> = ({style, domestic = false}) => (
-  <Interactive.Div name="机票 · 整体" style={{position: 'absolute', width: 862, height: 515, ...style}}>
+export const FlightTicket: React.FC<Props> = ({style, domestic = false,opening,mapReady=true}) => (
+  <Interactive.Div name="机票 · 整体" data-opening-ticket={opening?true:undefined} data-opening-push={opening?.push} data-ticket-visual-top={opening?.ticketVisualTop} style={{position: 'absolute', width: 862, height: 515, ...style,...(opening?ticketOpeningStyle(opening):{}),visibility:mapReady?undefined:'hidden'}}>
     <Interactive.Div name="机票 · 白色票面" style={{position: 'absolute', inset: 0, borderRadius: 34, background: 'rgba(255,255,255,.97)', boxShadow: '0 30px 72px rgba(56,80,108,.22)', border: '1px solid rgba(255,255,255,.9)'}} />
     <Interactive.Div name="机票 · 顶部标签" style={{position: 'absolute', left: 54, top: 39, color: '#8d9aa9', fontFamily: 'Arial, sans-serif', fontSize: 23, fontWeight: 800, letterSpacing: 7}}>HOLIDAY FLIGHT</Interactive.Div>
     <Interactive.Div name="机票 · 航班号" style={{position: 'absolute', right: 51, top: 35, color: '#5b9dd8', fontFamily: 'Arial, sans-serif', fontSize: 27, fontWeight: 800}}>{domestic ? 'CHINA 07' : 'EUROPE 07'}</Interactive.Div>

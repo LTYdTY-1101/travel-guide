@@ -1,5 +1,6 @@
 import {GeographicFlight} from '../components/GeographicFlight';
 import {FlightTicket} from '../components/FlightTicket';
+import {openingState} from '../opening/opening-state';
 import {MessageNotification} from '../components/MessageNotification';
 import {onScreenMessageEntrance} from '../on-screen-messages.element';
 import {MessageBackdrop} from '../components/MessageBackdrop';
@@ -35,9 +36,11 @@ const SceneBase: React.FC<{children: React.ReactNode}> = ({children}) => (
   <AbsoluteFill style={{backgroundColor: sceneBackground, overflow: 'hidden'}}>{children}</AbsoluteFill>
 );
 
-export const Scene01Messages: React.FC<{timeOffsetFrames?: number; domesticTicket?: boolean; vectorOpening?: boolean; muteSfx?: boolean}> = ({timeOffsetFrames = 0, domesticTicket = false, vectorOpening = false, muteSfx = false}) => {
-  const frame = useCurrentFrame() + timeOffsetFrames;
+export const Scene01Messages: React.FC<{timeOffsetFrames?: number; domesticTicket?: boolean; vectorOpening?: boolean; muteSfx?: boolean; mapReady?:boolean}> = ({timeOffsetFrames = 0, domesticTicket = false, vectorOpening = false, muteSfx = false,mapReady=true}) => {
+  const actualFrame=useCurrentFrame()+timeOffsetFrames;
   const {fps} = useVideoConfig();
+  const opening=openingState(actualFrame/fps);
+  const frame=vectorOpening?opening.messageSeconds*fps:actualFrame;
   const flipStart = 3.5 * fps;
   const flipSide = 3.8 * fps;
   const mapOpen = 4.35 * fps;
@@ -59,7 +62,7 @@ export const Scene01Messages: React.FC<{timeOffsetFrames?: number; domesticTicke
         glowBlur={70}
         premountFor={fps}
       />
-      <Interactive.Div name="转场 · 三维悬浮空间" premountFor={fps} style={{position: 'absolute', inset: 0, perspective: 1450, perspectiveOrigin: '50% 48%', transformStyle: 'preserve-3d', zIndex: vectorOpening ? 3 : undefined}}>
+      <Interactive.Div name="转场 · 三维悬浮空间" premountFor={fps} style={{position: 'absolute', inset: 0, perspective: vectorOpening?undefined:1450, perspectiveOrigin: '50% 48%', transformStyle: vectorOpening?undefined:'preserve-3d', zIndex: vectorOpening ? 3 : undefined}}>
         <MessageNotification
           name="首屏 · 悬浮消息通知"
           title="Messages"
@@ -96,7 +99,7 @@ export const Scene01Messages: React.FC<{timeOffsetFrames?: number; domesticTicke
           shadow="0 24px 65px rgba(55,58,92,.18)"
           premountFor={fps}
           durationInFrames={4 * fps}
-          style={{...onScreenMessageEntrance(frame * 30 / fps, 2, 10), left: 90, top: 685, width: 760, height: 182, borderRadius: 44, opacity: interpolate(frame, [2 * fps / 30, 10 * fps / 30, flipStart, 3.88 * fps], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), transform: `rotateY(${interpolate(frame, [flipStart, flipSide], [0, 88], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.48, 0, .9, .52)})}deg)`, transformOrigin: 'center center'}}
+          style={{...onScreenMessageEntrance(frame * 30 / fps, 2, 10), left: 90, top: 685, width: 760, height: 182, borderRadius: 44, opacity: interpolate(frame, [2 * fps / 30, 10 * fps / 30, flipStart, 3.88 * fps], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), transform: `rotateY(${interpolate(frame, [flipStart, flipSide], [0, 88], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.48, 0, .9, .52)})}deg)`, transformOrigin: 'center center',...(vectorOpening?{opacity:Number(onScreenMessageEntrance(frame*30/fps,2,10).opacity)*opening.messageOpacity,transform:`perspective(1450px) rotateY(${opening.messageRotateY}deg)`}:{})}}
         />
         <MessageNotification
           name="首屏 · GO 独立回复通知"
@@ -135,7 +138,7 @@ export const Scene01Messages: React.FC<{timeOffsetFrames?: number; domesticTicke
           premountFor={fps}
           from={37 * fps / 30}
           durationInFrames={4 * fps - 37 * fps / 30}
-          style={{...onScreenMessageEntrance((frame - 37 * fps / 30) * 30 / fps, 2, 10), right: 90, top: 915, width: 540, height: 182, borderRadius: 44, opacity: interpolate(frame, [(37 + 2) * fps / 30, (37 + 10) * fps / 30, flipStart, 3.88 * fps], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), transform: `rotateY(${interpolate(frame, [flipStart, flipSide], [0, 88], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.48, 0, .9, .52)})}deg)`, transformOrigin: 'center center'}}
+          style={{...onScreenMessageEntrance((frame - 37 * fps / 30) * 30 / fps, 2, 10), right: 90, top: 915, width: 540, height: 182, borderRadius: 44, opacity: interpolate(frame, [(37 + 2) * fps / 30, (37 + 10) * fps / 30, flipStart, 3.88 * fps], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), transform: `rotateY(${interpolate(frame, [flipStart, flipSide], [0, 88], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.48, 0, .9, .52)})}deg)`, transformOrigin: 'center center',...(vectorOpening?{opacity:Number(onScreenMessageEntrance((frame-37*fps/30)*30/fps,2,10).opacity)*opening.messageOpacity,transform:`perspective(1450px) rotateY(${opening.messageRotateY}deg)`}:{})}}
         />
         {!vectorOpening && <>
         <Interactive.Div name="地图 · 侧翻展开并后倾" premountFor={fps} style={{position: 'absolute', left: interpolate(frame, [flipSide, mapOpen, pushStart, fillEnd], [90, 105, 105, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), top: interpolate(frame, [flipSide, mapOpen, pushStart, fillEnd], [685, 240, 240, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), width: interpolate(frame, [flipSide, mapOpen, pushStart, fillEnd], [900, 870, 870, 1080], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), height: interpolate(frame, [flipSide, mapOpen, pushStart, fillEnd], [234, 1440, 1440, 1920], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), overflow: 'hidden', borderRadius: interpolate(frame, [pushStart, fillEnd], [44, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), boxShadow: '0 45px 110px rgba(56,62,104,.27)', opacity: interpolate(frame, [3.75 * fps, 3.95 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), transform: `rotateY(${interpolate(frame, [flipSide, mapOpen], [-88, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.16, 1, .3, 1)})}deg) rotateX(${interpolate(frame, [mapOpen, mapTilt], [0, 25], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.16, 1, .3, 1)})}deg)`, transformOrigin: 'center bottom', scale: interpolate(frame, [ticketSettle, pushStart, fillEnd], [1, 1.08, 1.5], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', output: 'perceptual-scale'})}}>
@@ -147,7 +150,7 @@ export const Scene01Messages: React.FC<{timeOffsetFrames?: number; domesticTicke
         <Interactive.Div name="地图 · 机票交接飞机投影" premountFor={fps} style={{position: 'absolute', left: FLIGHT_HANDOFF.planeX - 100, top: interpolate(frame, [5.3 * fps, pushStart, fillEnd], [660, 730, FLIGHT_HANDOFF.planeY - 100], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), width: 200, height: 200, filter: 'brightness(0) blur(4px)', opacity: interpolate(frame, [5.3 * fps, 5.7 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), translate: '0px 10px'}}><Img src={staticFile('plane-c4d.png')} style={{width: '100%', height: '100%', objectFit: 'contain'}} /></Interactive.Div>
         <Plane name="地图 · 与起飞镜头共享位置的飞机" color="#ffffff" size={200} premountFor={fps} style={{left: FLIGHT_HANDOFF.planeX - 100, top: interpolate(frame, [5.3 * fps, pushStart, fillEnd], [660, 730, FLIGHT_HANDOFF.planeY - 100], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.35, 0, .25, 1)}), opacity: interpolate(frame, [mapTilt, 5.35 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), rotate: '0deg'}} />
         </>}
-        <FlightTicket domestic={domesticTicket} style={{left: 79, top: frame <= pushStart ? interpolate(frame, [ticketIn, ticketSettle, pushStart], [1920, 1050, 1060], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.16, 1, .3, 1)}) : interpolate(frame, [pushStart, 7.55*fps], [1060, 2550], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.65, 0, 1, .45)}), opacity: interpolate(frame, [ticketIn, 5.2 * fps, 7.36 * fps, 7.57*fps], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), scale: interpolate(frame, [ticketIn, ticketSettle, pushStart, 7.55*fps], [.88, 1.07, 1.12, 2.15], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', output: 'perceptual-scale'}), transform: 'rotateX(10deg)', transformOrigin: 'center bottom', filter: `blur(${interpolate(frame, [ticketIn, ticketSettle, pushStart, 7.55*fps], [18, 0, 0, 32], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.6, 0, 1, .6)})}px)`}} />
+        {vectorOpening?<FlightTicket domestic={domesticTicket} opening={opening} mapReady={mapReady} />:(<FlightTicket domestic={domesticTicket} style={{left: 79, top: frame <= pushStart ? interpolate(frame, [ticketIn, ticketSettle, pushStart], [1920, 1050, 1060], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.16, 1, .3, 1)}) : interpolate(frame, [pushStart, 7.55*fps], [1060, 2550], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.65, 0, 1, .45)}), opacity: interpolate(frame, [ticketIn, 5.2 * fps, 7.36 * fps, 7.57*fps], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), scale: interpolate(frame, [ticketIn, ticketSettle, pushStart, 7.55*fps], [.88, 1.07, 1.12, 2.15], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', output: 'perceptual-scale'}), transform: 'rotateX(10deg)', transformOrigin: 'center bottom', filter: `blur(${interpolate(frame, [ticketIn, ticketSettle, pushStart, 7.55*fps], [18, 0, 0, 32], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(.6, 0, 1, .6)})}px)`}} />)}
       </Interactive.Div>
       {domesticTicket && <Interactive.Div name="交接 · 同一张浦东机场地图" premountFor={fps} style={{position: 'absolute', inset: 0, opacity: interpolate(frame, [7.68 * fps, 7.90 * fps], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}}><DomesticFirstLeg frozen /></Interactive.Div>}
       {!muteSfx && <>
