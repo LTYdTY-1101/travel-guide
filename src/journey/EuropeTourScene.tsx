@@ -45,8 +45,9 @@ export const EuropeTourScene:React.FC<TourProps&{onMapReady?:(ready:boolean)=>vo
  const {onMapReady}=props;
  useEffect(()=>{onMapReady?.(p.ready);},[onMapReady,p.ready]);
  const openingPlane=1;
+ const openingPlaneOffsetY=hasOpening&&frame/fps<OPENING_SECONDS?150*(1-openingView.push):0;
  const flight=step.kind==='flight',tram=step.kind==='tram',hold=step.kind==='hold';
- const vehicleSize=flight?props.planeSize*(step.id==='pvg--cdg'?1.42-.42*smooth((state.local-.55)/1.3):1+.12*state.altitude):props.tramSize;
+ const vehicleSize=flight?props.planeSize*(step.id==='pvg--cdg'?1.08-.08*smooth((state.local-.55)/1.3):1+.12*state.altitude):props.tramSize;
  const vehicleSrc=staticFile('plane-c4d.png'),vehicleAngle=p.angle;
  return <>
   <div data-opening-map={hasOpening?true:undefined} data-opening-push={hasOpening?openingView.push:undefined} data-tour-step={step.id} data-tour-kind={step.kind} data-tour-frame={frame} data-tour-ready={p.ready} data-camera-pitch={state.pitch+props.cameraPitch-32} data-camera-bearing={state.bearing} data-camera-zoom={state.zoom} style={{...(hasOpening?mapOpeningStyle(openingView):{position:'absolute',inset:0,width,height}),visibility:hasOpening&&!p.ready?'hidden':undefined,zIndex:2}}>
@@ -56,8 +57,8 @@ export const EuropeTourScene:React.FC<TourProps&{onMapReady?:(ready:boolean)=>vo
     {hold&&step.to.image&&state.modelScale>0&&<Model stop={step.to} x={p.to.x} y={p.to.y} zoom={state.zoom} scale={state.modelScale} reveal={state.reveal} />}
     {tram&&<Tram x={p.x} y={p.y} size={vehicleSize} heading={state.vehicleHeading+props.tramArtBearing} cameraBearing={state.bearing} pitch={Math.max(0,Math.min(60,state.pitch+props.cameraPitch-32))} opacity={state.opacity} />}
     {flight&&<>
-     <Img name="交通工具 · 接触投影" src={vehicleSrc} style={{position:'absolute',left:p.x-vehicleSize/2+8+state.altitude*45,top:p.y-vehicleSize/2+10+state.altitude*58,width:vehicleSize,height:vehicleSize,objectFit:'contain',rotate:`${vehicleAngle}deg`,filter:`brightness(0) blur(${2+state.altitude*13}px)`,opacity:state.opacity*(.3-.21*state.altitude)*openingPlane}} />
-     <Img data-vehicle="plane" name="交通工具 · 飞机" src={vehicleSrc} style={{position:'absolute',left:p.x-vehicleSize/2,top:p.y-vehicleSize/2,width:vehicleSize,height:vehicleSize,objectFit:'contain',rotate:`${vehicleAngle}deg`,opacity:state.opacity*openingPlane}} />
+     <Img name="交通工具 · 接触投影" src={vehicleSrc} style={{position:'absolute',left:p.x-vehicleSize/2+8+state.altitude*45,top:p.y-vehicleSize/2+10+state.altitude*58+openingPlaneOffsetY,width:vehicleSize,height:vehicleSize,objectFit:'contain',rotate:`${vehicleAngle}deg`,filter:`brightness(0) blur(${2+state.altitude*13}px)`,opacity:state.opacity*(.3-.21*state.altitude)*openingPlane}} />
+     <Img data-vehicle="plane" name="交通工具 · 飞机" src={vehicleSrc} style={{position:'absolute',left:p.x-vehicleSize/2,top:p.y-vehicleSize/2+openingPlaneOffsetY,width:vehicleSize,height:vehicleSize,objectFit:'contain',rotate:`${vehicleAngle}deg`,opacity:state.opacity*openingPlane}} />
     </>}
    </>}
 

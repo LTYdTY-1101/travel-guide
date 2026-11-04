@@ -1,0 +1,117 @@
+{
+  "source": "User-provided ScreenRecording_10-27-2026 11-31-01_1.MP4",
+  "method": "Stereo harmonic/percussive masking with shared phase-preserving masks; no time stretch; no pitch shift",
+  "sampleRate": 44100,
+  "clips": [
+    {
+      "output": "reference-message-clean.wav",
+      "replaces": "reference-message.m4a",
+      "sourceSeconds": [
+        3.55,
+        4.5
+      ],
+      "durationSeconds": 0.95,
+      "original": {
+        "rms": 0.08946147817449204,
+        "peak": 0.715423583984375,
+        "onsetSeconds": 0.12
+      },
+      "clean": {
+        "rms": 0.05456985639775457,
+        "peak": 0.6724981665611267,
+        "onsetSeconds": 0.12
+      },
+      "averageEffectMask": 0.4953762924746397,
+      "normalizationGain": 1.1934648840823001,
+      "treatment": "HPSS effect stem, 2048-sample FFT, 512-sample hop, harmonic floor 0.08"
+    },
+    {
+      "output": "reference-map-flip-clean.wav",
+      "replaces": "reference-map-flip.m4a",
+      "sourceSeconds": [
+        7.05,
+        8.6
+      ],
+      "durationSeconds": 1.55,
+      "original": {
+        "rms": 0.19282191984963043,
+        "peak": 0.67706298828125,
+        "onsetSeconds": 0
+      },
+      "clean": {
+        "rms": 0.11237084420186114,
+        "peak": 0.6364392042160034,
+        "onsetSeconds": 0.76
+      },
+      "averageEffectMask": 0.5214926553603173,
+      "normalizationGain": 1.854693317179402,
+      "treatment": "HPSS effect stem, 2048-sample FFT, 512-sample hop, harmonic floor 0.12"
+    },
+    {
+      "output": "reference-ticket-clean.wav",
+      "replaces": "reference-ticket.m4a",
+      "sourceSeconds": [
+        8.45,
+        9.8
+      ],
+      "durationSeconds": 1.35,
+      "original": {
+        "rms": 0.2084682918866568,
+        "peak": 0.711761474609375,
+        "onsetSeconds": 0
+      },
+      "clean": {
+        "rms": 0.10213241465836524,
+        "peak": 0.5724111795425415,
+        "onsetSeconds": 0
+      },
+      "averageEffectMask": 0.521495065428309,
+      "normalizationGain": 1.589996713739515,
+      "treatment": "HPSS effect stem, 2048-sample FFT, 512-sample hop, harmonic floor 0.12"
+    },
+    {
+      "output": "reference-plane-clean.wav",
+      "replaces": "reference-plane.m4a",
+      "sourceSeconds": [
+        9.75,
+        13.73
+      ],
+      "durationSeconds": 3.98,
+      "original": {
+        "rms": 0.2980904161421774,
+        "peak": 1,
+        "onsetSeconds": 0.53
+      },
+      "clean": {
+        "rms": 0.15889438048964394,
+        "peak": 0.9399999976158142,
+        "onsetSeconds": 0.53
+      },
+      "averageEffectMask": 0.6410669656625876,
+      "normalizationGain": 1.1323861258029448,
+      "treatment": "HPSS effect stem, 2048-sample FFT, 512-sample hop, harmonic floor 0.28"
+    },
+    {
+      "output": "reference-fireworks-clean.wav",
+      "replaces": "reference-fireworks.m4a",
+      "sourceSeconds": [
+        21.65732426303855,
+        29.73732426303855
+      ],
+      "durationSeconds": 8.08,
+      "original": {
+        "rms": 0.23942988570396193,
+        "peak": 1,
+        "onsetSeconds": 1.78
+      },
+      "clean": {
+        "rms": 0.12008888334230672,
+        "peak": 0.9399999976158142,
+        "onsetSeconds": 0.54
+      },
+      "averageEffectMask": 0.5169814850793483,
+      "normalizationGain": 1.0688382307064042,
+      "treatment": "HPSS effect stem, 2048-sample FFT, 512-sample hop, harmonic floor 0.14"
+    }
+  ]
+}

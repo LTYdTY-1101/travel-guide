@@ -352,8 +352,8 @@ const FireworkFieldInner:React.FC<FireworkFieldProps>=(p)=>{
     {p.count>=2&&<FireworkBurst frame={activeFrame} fps={fps} phase={cycle*.25} cycle={cycle} x={956} y={238} size={p.size} color={p.pink} opacity={p.opacity}/>}
     {p.count>=3&&<FireworkBurst frame={activeFrame} fps={fps} phase={cycle*.5} cycle={cycle} x={76} y={870} size={p.size*.75} color={p.orange} opacity={p.opacity*.92}/>}
     {p.count>=4&&<FireworkBurst frame={activeFrame} fps={fps} phase={cycle*.75} cycle={cycle} x={1000} y={820} size={p.size*.78} color={p.gold} opacity={p.opacity*.9}/>}
-    {p.count>=5&&<FireworkBurst frame={activeFrame} fps={fps} phase={cycle*.12} cycle={cycle} x={92} y={1120} size={p.size*.82} color={p.pink} opacity={p.opacity*.95}/>} 
-    {p.count>=6&&<FireworkBurst frame={activeFrame} fps={fps} phase={cycle*.62} cycle={cycle} x={990} y={1090} size={p.size*.86} color={p.orange} opacity={p.opacity*.95}/>} 
+    {p.count>=5&&<FireworkBurst frame={activeFrame} fps={fps} phase={cycle*.12} cycle={cycle} x={92} y={1120} size={p.size*.82} color={p.pink} opacity={p.opacity*.95}/>}
+    {p.count>=6&&<FireworkBurst frame={activeFrame} fps={fps} phase={cycle*.62} cycle={cycle} x={990} y={1090} size={p.size*.86} color={p.orange} opacity={p.opacity*.95}/>}
   </Interactive.Div>;
 };
 
@@ -390,7 +390,7 @@ const EuropeTravelPosterInner:React.FC<PosterRootProps>=(p)=>{
     <PosterBuilding name="终章建筑 · 米拉之家" premountFor={fps} entryEnabled={p.entryEnabled} entryDelaySeconds={0} entryDurationSeconds={.55} src={staticFile('landmarks/dioramas/mila.png')} label="米拉之家" shadowOpacity={.18} colorTemperature="saturate(.96) brightness(1.03)" style={{left:458,top:1390,width:500,height:385,scale:1.4,transformOrigin:'center bottom',zIndex:7}}/>
     <PosterBuilding name="终章建筑 · 圣彼得大教堂" premountFor={fps} entryEnabled={p.entryEnabled} entryDelaySeconds={0} entryDurationSeconds={.55} src={staticFile('landmarks/dioramas/vatican.png')} label="圣彼得大教堂" shadowOpacity={.2} colorTemperature="saturate(.96) brightness(1.03)" style={{left:670,top:1360,width:470,height:430,scale:1.4,transformOrigin:'center bottom',zIndex:7}}/>
     <PosterBuilding name="终章建筑 · 特莱维喷泉" premountFor={fps} entryEnabled={p.entryEnabled} entryDelaySeconds={0} entryDurationSeconds={.55} src={staticFile('landmarks/dioramas/trevi.png')} label="特莱维喷泉" shadowOpacity={.22} colorTemperature="saturate(.96) brightness(1.03)" style={{left:205,top:1370,width:650,height:570,scale:1.4,transformOrigin:'center bottom',zIndex:8}}/>
-    <PosterFireworkSoundtrack entryEnabled={p.entryEnabled}/>
+    <PosterFireworkSoundtrack entryEnabled={p.entryEnabled} holdSeconds={p.holdSeconds}/>
   </AbsoluteFill>;
 };
 

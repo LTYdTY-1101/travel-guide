@@ -1,5 +1,5 @@
 import {useEffect,useLayoutEffect,useRef,useState} from 'react';
-import {cancelRender,staticFile,useBufferState,useDelayRender} from 'remotion';
+import {cancelRender,staticFile,useBufferState,useDelayRender,useRemotionEnvironment} from 'remotion';
 import {Map as LibreMap,setWorkerUrl,type GeoJSONSource,type StyleSpecification} from 'maplibre-gl';
 import * as turf from '@turf/turf';
 import {installOpenFreeMapResources} from '../flight/openfreemap-resources';
@@ -9,6 +9,8 @@ export const useTourMap=(state:TourState,props:TourProps,frame:number,width:numb
  const container=useRef<HTMLDivElement>(null),instance=useRef<LibreMap|null>(null);
  const {delayRender,continueRender}=useDelayRender();
  const {delayPlayback}=useBufferState();
+ const {isStudio,isRendering}=useRemotionEnvironment();
+ const fastPreview=isStudio&&!isRendering;
  const openingMap=props.section==='full'||props.section==='paris-stage';
  const [initialHandle]=useState(()=>delayRender('欧洲旅程：等待 OpenFreeMap 初始化',{timeoutInMilliseconds:120000}));
  const [map,setMap]=useState<LibreMap|null>(null);
@@ -39,19 +41,20 @@ export const useTourMap=(state:TourState,props:TourProps,frame:number,width:numb
     m.addLayer({id:'tour-ahead-line',type:'line',source:'tour-ahead',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':p.groundColor,'line-width':p.routeWidth+2,'line-dasharray':[1,1.4]}});
     m.addLayer({id:'tour-passed-line',type:'line',source:'tour-travelled',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':p.flightColor,'line-width':p.routeWidth}});
     m.addLayer({id:'tour-destination-dot',type:'circle',source:'tour-destination',paint:{'circle-color':p.groundColor,'circle-radius':8,'circle-stroke-color':'white','circle-stroke-width':4}});
-    m.once('idle',()=>{if(active){setMap(m);continueRender(initialHandle);initialPlayback?.unblock();}});m.triggerRepaint();
+    const finishInitial=()=>{if(active){setMap(m);continueRender(initialHandle);initialPlayback?.unblock();}};
+    if(fastPreview)finishInitial();else m.once('idle',finishInitial);m.triggerRepaint();
    });
   }).catch(fail);
   // Same canvas lifecycle as the validated standalone preview: no removal during capture.
   return()=>{active=false;initialPlayback?.unblock();};
- },[initialHandle,continueRender,openingMap,delayPlayback]);
+ },[initialHandle,continueRender,openingMap,delayPlayback,fastPreview]);
  useLayoutEffect(()=>{
-  if(!map)return;
-  const playback=openingMap&&state.step.id==='pvg--cdg'?delayPlayback():null;
-  const handle=delayRender(`欧洲地图：第 ${frame} 帧瓦片、路径与投影`,{timeoutInMilliseconds:120000});let done=false;
-  const finish=()=>{if(!done){done=true;continueRender(handle);playback?.unblock();}};
+  if(!map||(fastPreview&&frame%2!==0))return;
+  const playback=!fastPreview&&openingMap&&state.step.id==='pvg--cdg'?delayPlayback():null;
+  const handle=fastPreview?null:delayRender(`欧洲地图：第 ${frame} 帧瓦片、路径与投影`,{timeoutInMilliseconds:120000});let done=false;
+  const finish=()=>{if(!done){done=true;if(handle!==null)continueRender(handle);playback?.unblock();}};
   const ready=()=>{if(map.areTilesLoaded()&&map.isStyleLoaded()){if(container.current)container.current.dataset.tourIdleFrame=String(frame);finish();}};
-  map.on('idle',ready);
+  if(!fastPreview)map.on('idle',ready);
   const anchor=state.anchorY+props.anchorY-.57;
   map.jumpTo({center:state.target,zoom:state.zoom,bearing:state.bearing,pitch:Math.max(0,Math.min(60,state.pitch+props.cameraPitch-32)),
    padding:{top:Math.max(0,(anchor-.5)*2*height),bottom:Math.max(0,(.5-anchor)*2*height),left:0,right:0}});
@@ -67,10 +70,10 @@ export const useTourMap=(state:TourState,props:TourProps,frame:number,width:numb
   map.setPaintProperty('tour-destination-dot','circle-stroke-opacity',state.step.kind==='flight'?0:1);
   const p=map.project(state.position),a=map.project(state.tangentBefore),b=map.project(state.tangentAfter);
   const from=map.project(coord(state.step.from)),to=map.project(coord(state.step.to));
-  commit.current=delayRender('提交电车 / 飞机 / 建筑同一帧投影');
+  commit.current=fastPreview?null:delayRender('提交电车 / 飞机 / 建筑同一帧投影');
   setProjection({ready:true,x:p.x,y:p.y,angle:Math.atan2(b.x-a.x,-(b.y-a.y))*180/Math.PI,from:{x:from.x,y:from.y},to:{x:to.x,y:to.y}});
-  map.triggerRepaint();return()=>{map.off('idle',ready);finish();};
- },[map,state,frame,width,height,props.anchorY,props.cameraPitch,props.flightColor,props.groundColor,continueRender,delayRender,openingMap,delayPlayback]);
+  map.triggerRepaint();return()=>{if(!fastPreview)map.off('idle',ready);finish();};
+ },[map,state,frame,width,height,props.anchorY,props.cameraPitch,props.flightColor,props.groundColor,continueRender,delayRender,openingMap,delayPlayback,fastPreview]);
  useEffect(()=>{
   if(!map)return;
   map.setPaintProperty('tour-passed-line','line-width',props.routeWidth);map.setPaintProperty('tour-ahead-line','line-width',props.routeWidth+2);

@@ -154,7 +154,7 @@ export const TourInfoCards:React.FC<{activeCity?:string}>=({activeCity})=>{
   />
   <TourInfoCard
    name="景点介绍 · 特莱维喷泉"
-   from={1690}
+   from={1659}
    durationInFrames={126}
    premountFor={fps}
    cardId={"trevi"}

@@ -1,5 +1,5 @@
 {
-  "source": "User-provided /Users/liutongyu/Downloads/ScreenRecording_10-27-2026 11-31-01_1.MP4",
+  "source": "User-provided ScreenRecording_10-27-2026 11-31-01_1.MP4",
   "usedSourceSeconds": [
     13.725351473922903,
     21.65732426303855
@@ -8,5 +8,28 @@
   "model": "UVR-MDX-NET-Inst_HQ_3",
   "modelMetadataSource": "https://github.com/TRvlvr/application_data/blob/main/mdx_model_data/model_data.json",
   "measuredBPM": 121.02915951972554,
-  "noReplacementMusic": true
+  "noReplacementMusic": true,
+  "derivedEffects": {
+    "reference-message.m4a": [3.55, 4.5],
+    "reference-map-flip.m4a": [7.05, 8.6],
+    "reference-ticket.m4a": [8.45, 9.8],
+    "reference-plane.m4a": [9.75, 13.73],
+    "reference-fireworks.m4a": [21.65732426303855, 29.73732426303855]
+  },
+  "cleanEffectStems": {
+    "reference-message-clean.wav": [3.55, 4.5],
+    "reference-map-flip-clean.wav": [7.05, 8.6],
+    "reference-ticket-clean.wav": [8.45, 9.8],
+    "reference-plane-clean.wav": [9.75, 13.73],
+    "reference-fireworks-clean.wav": [21.65732426303855, 29.73732426303855]
+  },
+  "effectStemTreatment": {
+    "method": "Stereo harmonic/percussive masking with shared phase-preserving masks",
+    "fftSize": 2048,
+    "hopSize": 512,
+    "speedChange": 0,
+    "pitchChange": 0,
+    "audit": "SFX-AUDIT.json",
+    "generator": "scripts/extract-clean-reference-sfx.mjs"
+  }
 }

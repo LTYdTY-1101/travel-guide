@@ -13,14 +13,14 @@ const fs=require('fs'),path=require('path'),assert=require('assert/strict'),root
     const map=document.querySelector('[data-opening-map]'),candidate=document.querySelector('[data-opening-ticket]'),ticket=candidate&&getComputedStyle(candidate).visibility!=='hidden'&&candidate.getBoundingClientRect().width>0?candidate:null,plane=document.querySelector('[data-vehicle="plane"]'),canvas=map.querySelector('canvas');
     const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,top:r.top,bottom:r.bottom,right:r.right};};
     const frame=rect(map.parentElement);
-    return {frame,push:Number(map.dataset.openingPush),map:{rect:rect(map),transform:map.style.transform,radius:map.style.borderRadius,canvasWidth:canvas.width,canvasHeight:canvas.height},ticket:ticket?{rect:rect(ticket),opacity:Number(ticket.style.opacity),filter:ticket.style.filter,push:Number(ticket.dataset.openingPush)}:null,plane:{left:plane.style.left,top:plane.style.top,width:plane.style.width,rotate:plane.style.rotate},planes:document.querySelectorAll('[data-vehicle="plane"]').length,canvases:document.querySelectorAll('.maplibregl-canvas').length};
+    return {frame,push:Number(map.dataset.openingPush),map:{rect:rect(map),transform:map.style.transform,radius:map.style.borderRadius,shadow:map.style.boxShadow,canvasWidth:canvas.width,canvasHeight:canvas.height},ticket:ticket?{rect:rect(ticket),opacity:Number(ticket.style.opacity),filter:ticket.style.filter,transform:ticket.style.transform,push:Number(ticket.dataset.openingPush)}:null,plane:{left:plane.style.left,top:plane.style.top,width:plane.style.width,rotate:plane.style.rotate},planes:document.querySelectorAll('[data-vehicle="plane"]').length,canvases:document.querySelectorAll('.maplibregl-canvas').length};
    });
    assert.equal(data.planes,1);assert.equal(data.canvases,1);if(data.ticket&&frame<238)assert.equal(data.push,data.ticket.push);
    results.push({frame,id,...data});console.log('SEEK',id,frame,JSON.stringify(data));return data;
   };
   for(const frame of [237,118,180,220,149,264]){
    const s=await seek(frame);
-   if(frame===180){assert(s.ticket.rect.top>s.frame.top&&s.ticket.rect.bottom<s.frame.bottom);assert.equal(s.ticket.filter,'blur(0px)');}
+   if(frame===180){assert(s.ticket.rect.top>s.frame.top&&s.ticket.rect.bottom<s.frame.bottom);assert.equal(s.ticket.filter,'blur(0px)');assert.match(s.map.shadow,/255/);assert(parseFloat(s.plane.width)<230);}
    if(frame===220){assert(s.ticket.rect.top<s.frame.bottom&&s.ticket.rect.bottom>s.frame.bottom);assert.equal(s.ticket.opacity,1);}
    if(frame===237){assert.equal(s.map.radius,'0px');assert.equal(s.map.transform,'');assert(s.ticket.rect.top>=s.frame.bottom);}
   }
