@@ -24,6 +24,7 @@ const EditableAudioClipInner:React.FC<EditableAudioClipProps>=(p)=>{
   volume={p.volume*fadeIn*fadeOut}
   playbackRate={p.clipPlaybackRate??1}
   loop={p.loopAsset??false}
+  preservePitch
   premountFor={fps}
   style={p.style}
  />;
@@ -35,7 +36,7 @@ const editableAudioClipSchema={
  trimBeforeSeconds:{type:'number',min:0,max:60,step:.01,default:0,hiddenFromList:false,description:'素材开头裁切（秒）'},
  fadeInSeconds:{type:'number',min:0,max:5,step:.01,default:0,hiddenFromList:false,description:'淡入时长（秒）'},
  fadeOutSeconds:{type:'number',min:0,max:5,step:.01,default:.15,hiddenFromList:false,description:'淡出时长（秒）'},
- clipPlaybackRate:{type:'number',min:.25,max:4,step:.01,default:1,hiddenFromList:false,description:'音效播放速度'},
+ clipPlaybackRate:{type:'number',min:.1,max:4,step:.01,default:1,hiddenFromList:false,description:'音效播放速度'},
  loopAsset:{type:'boolean',default:false,description:'循环播放'},
 } as const satisfies InteractivitySchema;
 

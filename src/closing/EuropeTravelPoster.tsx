@@ -10,7 +10,6 @@ import {
   useVideoConfig,
   type InteractivitySchema,
 } from 'remotion';
-import {PosterFireworkSoundtrack} from '../audio/PosterFireworkSoundtrack';
 
 export const POSTER_ENTRY_SECONDS=3.6;
 export const POSTER_DEFAULT_HOLD_SECONDS=12;
@@ -390,7 +389,6 @@ const EuropeTravelPosterInner:React.FC<PosterRootProps>=(p)=>{
     <PosterBuilding name="终章建筑 · 米拉之家" premountFor={fps} entryEnabled={p.entryEnabled} entryDelaySeconds={0} entryDurationSeconds={.55} src={staticFile('landmarks/dioramas/mila.png')} label="米拉之家" shadowOpacity={.18} colorTemperature="saturate(.96) brightness(1.03)" style={{left:458,top:1390,width:500,height:385,scale:1.4,transformOrigin:'center bottom',zIndex:7}}/>
     <PosterBuilding name="终章建筑 · 圣彼得大教堂" premountFor={fps} entryEnabled={p.entryEnabled} entryDelaySeconds={0} entryDurationSeconds={.55} src={staticFile('landmarks/dioramas/vatican.png')} label="圣彼得大教堂" shadowOpacity={.2} colorTemperature="saturate(.96) brightness(1.03)" style={{left:670,top:1360,width:470,height:430,scale:1.4,transformOrigin:'center bottom',zIndex:7}}/>
     <PosterBuilding name="终章建筑 · 特莱维喷泉" premountFor={fps} entryEnabled={p.entryEnabled} entryDelaySeconds={0} entryDurationSeconds={.55} src={staticFile('landmarks/dioramas/trevi.png')} label="特莱维喷泉" shadowOpacity={.22} colorTemperature="saturate(.96) brightness(1.03)" style={{left:205,top:1370,width:650,height:570,scale:1.4,transformOrigin:'center bottom',zIndex:8}}/>
-    <PosterFireworkSoundtrack entryEnabled={p.entryEnabled} holdSeconds={p.holdSeconds}/>
   </AbsoluteFill>;
 };
 

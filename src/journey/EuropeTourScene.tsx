@@ -15,16 +15,17 @@ const Model:React.FC<{stop:Stop;x:number;y:number;zoom:number;scale:number;revea
  const w=modelWidth(stop,zoom,scale),h=w/stop.aspect,x0=x+stop.offsetX,y0=y+stop.offsetY;
  const rise=stop.id==='eiffel'||stop.id==='notre-dame',fold=stop.id==='casa'||stop.id==='mila';
  const unfold=smooth((reveal-.14)/.86);
+ const settled=smooth((reveal-.76)/.24);
  const modelTransform=rise?`translateY(${(1-reveal)*h*stop.groundY}px)`:fold?`perspective(1800px) rotateX(${78*(1-unfold)}deg) scaleY(${.24+.76*unfold})`:`perspective(1800px) translateY(${(1-reveal)*220}px) scale(${.38+.62*reveal}) rotateX(${-78*(1-reveal)}deg)`;
  const imageStyle:React.CSSProperties={position:'absolute',left:x0-w*stop.groundX,top:y0-h*stop.groundY,width:w,height:h,objectFit:'fill',transformOrigin:`${stop.groundX*100}% ${stop.groundY*100}%`};
  return <Interactive.Div name={`景观 · ${stop.name} · 底座锚定`} data-model={stop.id} data-model-scale={scale} data-entrance={rise?'rise':fold?'fold':'scale'} data-reveal={reveal} data-ground-x={x0} data-ground-y={y0} style={{position:'absolute',inset:0,opacity:rise?smooth(reveal):smooth(reveal*(fold?8:4)),pointerEvents:'none'}}>
-  <Img name={`景观 · ${stop.name} · 柔和远投影`} src={staticFile(stop.image)} style={{...imageStyle,transform:'matrix(1,0,-.35,-.16,0,0)',filter:`brightness(0) blur(${small?7:17}px)`,opacity:.10*reveal}} />
+  <Img name={`景观 · ${stop.name} · 阳光方向远投影`} src={staticFile(stop.image)} style={{...imageStyle,transform:`translate(${settled*26}px,${settled*34}px) matrix(1,0,-.36,-.17,0,0)`,filter:`brightness(0) blur(${small?7:17}px)`,mixBlendMode:'multiply',opacity:.03*reveal+.22*settled}} />
   <svg width={1080} height={1920} style={{position:'absolute',inset:0,overflow:'visible'}} aria-hidden="true">
-   <ellipse cx={x0+7} cy={y0+8} rx={w*stop.groundWidth*.47} ry={w*stop.groundWidth*.12} fill="#746c60" opacity={.11} style={{filter:`blur(${small?4:12}px)`}} />
-   <ellipse cx={x0} cy={y0+3} rx={w*stop.groundWidth*.39} ry={w*stop.groundWidth*.075} fill="#534d43" opacity={.18} style={{filter:`blur(${small?2:5}px)`}} />
+   <ellipse cx={x0+7} cy={y0+8+settled*9} rx={w*stop.groundWidth*.47} ry={w*stop.groundWidth*.12} fill="#866f52" opacity={.05*reveal+.15*settled} style={{filter:`blur(${small?4:12}px)`}} />
+   <ellipse cx={x0} cy={y0+3+settled*5} rx={w*stop.groundWidth*.39} ry={w*stop.groundWidth*.075} fill="#5d4933" opacity={.08*reveal+.2*settled} style={{filter:`blur(${small?2:5}px)`}} />
   </svg>
   <div style={{position:'absolute',inset:0,clipPath:rise?`inset(0 0 ${Math.max(0,1920-y0-h*(1-stop.groundY))}px 0)`:undefined}}>
-   <Img name={`建筑素材 · ${stop.name}`} src={staticFile(stop.image)} style={{...imageStyle,transform:modelTransform,backfaceVisibility:'hidden',filter:'saturate(.94) brightness(1.015) drop-shadow(0 8px 8px rgba(57,49,38,.15))'}} />
+   <Img name={`建筑素材 · ${stop.name}`} src={staticFile(stop.image)} style={{...imageStyle,transform:modelTransform,backfaceVisibility:'hidden',filter:`saturate(.96) brightness(${1.015+settled*.035}) drop-shadow(${-settled*4}px ${-settled*3}px ${4+settled*4}px rgba(255,244,210,${settled*.2})) drop-shadow(${settled*7}px ${8+settled*16}px ${8+settled*14}px rgba(76,54,32,${.12+settled*.22}))`}} />
   </div>
  </Interactive.Div>;
 };

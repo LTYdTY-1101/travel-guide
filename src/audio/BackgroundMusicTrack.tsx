@@ -10,6 +10,9 @@ export type BackgroundMusicTrackProps={
  readonly fadeOutSeconds:number;
  readonly duckAmount:number;
  readonly duckTimesSeconds:number[];
+ readonly permanentDuckStartSeconds:number;
+ readonly permanentDuckFadeSeconds:number;
+ readonly permanentDuckTargetVolume:number;
  readonly style?:React.CSSProperties;
 };
 
@@ -24,11 +27,17 @@ const BackgroundMusicTrackInner:React.FC<BackgroundMusicTrackProps>=(p)=>{
   const release=interpolate(seconds,[event,event+.48],[1,0],{extrapolateLeft:'clamp',extrapolateRight:'clamp'});
   duck=Math.max(duck,Math.min(attack,release));
  }
+ const permanentVolume=interpolate(
+  seconds,
+  [p.permanentDuckStartSeconds,p.permanentDuckStartSeconds+Math.max(.01,p.permanentDuckFadeSeconds)],
+  [p.volume,p.permanentDuckTargetVolume],
+  {extrapolateLeft:'clamp',extrapolateRight:'clamp'},
+ );
  return <Audio
   name="背景音乐素材"
   src={p.src}
   trimBefore={Math.round(p.trimBeforeSeconds*fps)}
-  volume={p.volume*fadeIn*fadeOut*(1-p.duckAmount*duck)}
+  volume={permanentVolume*fadeIn*fadeOut*(1-p.duckAmount*duck)}
   premountFor={fps}
   style={p.style}
  />;
@@ -42,6 +51,9 @@ const backgroundMusicTrackSchema={
  fadeOutSeconds:{type:'number',min:0,max:8,step:.05,default:1.8,hiddenFromList:false,description:'音乐淡出（秒）'},
  duckAmount:{type:'number',min:0,max:.8,step:.01,default:.18,hiddenFromList:false,description:'音效出现时音乐压低量'},
  duckTimesSeconds:{type:'hidden'},
+ permanentDuckStartSeconds:{type:'number',min:0,max:180,step:.01,default:76.47,hiddenFromList:false,description:'烟花开始后降低音量的轨道内时间（秒）'},
+ permanentDuckFadeSeconds:{type:'number',min:.01,max:10,step:.05,default:2,hiddenFromList:false,description:'降低至目标音量所需时长（秒）'},
+ permanentDuckTargetVolume:{type:'number',min:0,max:1.5,step:.01,default:.3,hiddenFromList:false,description:'烟花开始后的目标音量'},
 } as const satisfies InteractivitySchema;
 
 export const BackgroundMusicTrack=Interactive.withSchema({

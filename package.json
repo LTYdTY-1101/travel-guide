@@ -17,6 +17,7 @@
   "dependencies": {
     "@remotion/cli": "4.0.538",
     "@remotion/media": "4.0.538",
+    "@remotion/sfx": "4.0.538",
     "@turf/turf": "^7.4.0",
     "maplibre-gl": "^6.16.0",
     "react": "19.2.3",
